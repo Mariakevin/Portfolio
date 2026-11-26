@@ -34,10 +34,6 @@
     }
   }
 
-  function pad2(value) {
-    return String(value).padStart(2, '0');
-  }
-
   function createExternalLink(label, url, className) {
     var anchor = el('a', className || '', label);
     anchor.href = url;
@@ -72,40 +68,14 @@
   }
 
   /* ------------------------------------------------------------------------
-     Theme / Register Manager (Paper vs. Plate)
+     Theme Manager
      ------------------------------------------------------------------------ */
   function getTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-  }
-
-  function registerLabel(theme) {
-    return theme === 'light' ? 'Paper register' : 'Plate register';
-  }
-
-  function updateColophon(theme) {
-    var stockName = $('#swatch-stock-name');
-    var stockHex = $('#swatch-stock-hex');
-    var inkName = $('#swatch-ink-name');
-    var inkHex = $('#swatch-ink-hex');
-    var signalHex = $('#swatch-signal-hex');
-
-    if (theme === 'light') {
-      if (stockName) stockName.textContent = 'Paper';
-      if (stockHex) stockHex.textContent = '#EFEBE2';
-      if (inkName) inkName.textContent = 'Carbon Ink';
-      if (inkHex) inkHex.textContent = '#16150F';
-      if (signalHex) signalHex.textContent = '#F04A12';
-    } else {
-      if (stockName) stockName.textContent = 'Plate';
-      if (stockHex) stockHex.textContent = '#0F100D';
-      if (inkName) inkName.textContent = 'Bone Ink';
-      if (inkHex) inkHex.textContent = '#EEECE2';
-      if (signalHex) signalHex.textContent = '#FF5A1F';
-    }
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
   function setTheme(theme) {
-    var normalized = theme === 'light' ? 'light' : 'dark';
+    var normalized = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', normalized);
     document.documentElement.style.colorScheme = normalized;
     try {
@@ -114,9 +84,15 @@
 
     var metaTheme = $('meta[name="theme-color"]');
     if (metaTheme) {
-      metaTheme.setAttribute('content', normalized === 'light' ? '#efebe2' : '#0f100d');
+      metaTheme.setAttribute('content', normalized === 'dark' ? '#0d1717' : '#f8f9f7');
     }
-    updateColophon(normalized);
+
+    var toggle = $('#theme-toggle');
+    if (toggle) {
+      var nextLabel = normalized === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+      toggle.setAttribute('aria-label', nextLabel);
+      toggle.setAttribute('title', nextLabel);
+    }
     return normalized;
   }
 
@@ -126,12 +102,12 @@
     btn.addEventListener('click', function () {
       var next = getTheme() === 'dark' ? 'light' : 'dark';
       setTheme(next);
-      showToast(registerLabel(next));
+      showToast(next === 'dark' ? 'Dark theme enabled' : 'Light theme enabled');
     });
   }
 
   /* ------------------------------------------------------------------------
-     Mobile Navigation & Print Dossier
+     Mobile Navigation & Print CV
      ------------------------------------------------------------------------ */
   function initMobileNav() {
     var toggle = $('#mobile-menu-toggle');
@@ -167,7 +143,7 @@
   }
 
   function initPrintButtons() {
-    [$('#print-dossier-btn'), $('#hero-print-btn')].forEach(function (btn) {
+    [$('#print-dossier-btn')].forEach(function (btn) {
       if (btn) {
         btn.addEventListener('click', triggerPrintDossier);
       }
@@ -175,34 +151,11 @@
   }
 
   /* ------------------------------------------------------------------------
-     Live Local Clock
-     ------------------------------------------------------------------------ */
-  function updateClock() {
-    var clockEl = $('#live-clock');
-    if (!clockEl) return;
-
-    var options = {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZoneName: 'short'
-    };
-    if (data.profile.timezone) {
-      options.timeZone = data.profile.timezone;
-    }
-
-    try {
-      clockEl.textContent = new Intl.DateTimeFormat(undefined, options).format(new Date());
-    } catch (e) {
-      clockEl.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-  }
-
-  /* ------------------------------------------------------------------------
-     Hydrate Profile, Bio & Ledger
+     Hydrate Profile & Content
      ------------------------------------------------------------------------ */
   function hydrateProfile() {
     var p = data.profile;
-    document.title = p.name + ' — ' + p.role;
+    document.title = p.name + ', ' + p.role;
 
     var navBrand = $('#nav-brand');
     if (navBrand) navBrand.textContent = p.name;
@@ -214,7 +167,7 @@
     if (metaDescription && p.description) metaDescription.setAttribute('content', p.description);
 
     var ogTitle = $('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', p.name + ' — ' + p.role);
+    if (ogTitle) ogTitle.setAttribute('content', p.name + ', ' + p.role);
 
     var ogDescription = $('meta[property="og:description"]');
     if (ogDescription && p.description) ogDescription.setAttribute('content', p.description);
@@ -223,11 +176,7 @@
     if (statusText) statusText.textContent = p.status;
 
     var headline = $('#hero-headline');
-    if (headline) {
-      clearNode(headline);
-      headline.appendChild(document.createTextNode(p.headlinePrefix));
-      headline.appendChild(el('span', 'text-accent', p.headlineAccent));
-    }
+    if (headline && p.headline) headline.textContent = p.headline;
 
     var subtitle = $('#hero-subtitle');
     if (subtitle) subtitle.textContent = p.subtitle;
@@ -237,6 +186,18 @@
 
     var metaLocation = $('#meta-location');
     if (metaLocation) metaLocation.textContent = p.location;
+
+    var resumeLink = $('#resume-download-link');
+    if (resumeLink) {
+      if (p.cvUrl) {
+        resumeLink.href = p.cvUrl;
+        resumeLink.hidden = false;
+        resumeLink.style.display = '';
+      } else {
+        resumeLink.hidden = true;
+        resumeLink.style.display = 'none';
+      }
+    }
 
     var heroLinks = $('#hero-social-links');
     if (heroLinks) {
@@ -263,23 +224,11 @@
     var emailLink = $('#contact-email-link');
     if (emailLink) emailLink.href = 'mailto:' + p.email;
 
-    var resumeLink = $('#resume-download-link');
-    if (resumeLink) {
-      if (p.cvUrl) {
-        resumeLink.href = p.cvUrl;
-        resumeLink.hidden = false;
-        resumeLink.style.display = '';
-      } else {
-        resumeLink.hidden = true;
-        resumeLink.style.display = 'none';
-      }
-    }
-
     var contactSocials = $('#contact-socials');
     if (contactSocials) {
       clearNode(contactSocials);
       p.socials.forEach(function (s) {
-        contactSocials.appendChild(createExternalLink(s.label + ' ↗', s.url, 'social-pill'));
+        contactSocials.appendChild(createExternalLink(s.label, s.url, 'social-pill'));
       });
     }
 
@@ -291,10 +240,10 @@
   }
 
   /* ------------------------------------------------------------------------
-     Interactive Hero Systems Map (Fig. 01)
+     Interactive Hero Architecture Map
      ------------------------------------------------------------------------ */
   function initHeroPlate() {
-    var nodes = $all('.plate-node');
+    var nodes = $all('.plate-node, .plate-mobile-node');
     var readoutTag = $('#plate-readout-tag');
     var readoutText = $('#plate-readout-text');
     var readoutOpen = $('#plate-readout-open');
@@ -310,10 +259,12 @@
 
       selectedPlateProject = proj.id;
       nodes.forEach(function (n) {
-        n.classList.toggle('is-selected', n.getAttribute('data-plate-project') === projectId);
+        var isSelected = n.getAttribute('data-plate-project') === projectId;
+        n.classList.toggle('is-selected', isSelected);
+        if (n.matches('.plate-mobile-node')) n.setAttribute('aria-pressed', String(isSelected));
       });
 
-      readoutTag.textContent = proj.category + ' // ' + proj.status;
+      readoutTag.textContent = proj.title + ' (' + proj.status + ')';
       readoutText.textContent = proj.problem;
       readoutOpen.hidden = false;
     }
@@ -321,6 +272,10 @@
     nodes.forEach(function (node) {
       var id = node.getAttribute('data-plate-project');
       node.addEventListener('click', function () {
+        if (node.matches('.plate-mobile-node')) {
+          selectPlateNode(id);
+          return;
+        }
         if (selectedPlateProject === id) {
           openProjectModal(id);
         } else {
@@ -352,7 +307,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     Projects Workbench, Filtering & Preview Inspector
+     Selected Work & Inspector
      ------------------------------------------------------------------------ */
   var activeCategory = 'All';
   var activeProjectId = null;
@@ -384,7 +339,7 @@
         ? data.projects.length
         : data.projects.filter(function (p) { return p.category === cat; }).length;
 
-      var btn = el('button', 'filter-btn' + (cat === activeCategory ? ' is-active' : ''), cat + ' (' + pad2(count) + ')');
+      var btn = el('button', 'filter-btn' + (cat === activeCategory ? ' is-active' : ''), cat + ' (' + count + ')');
       btn.type = 'button';
       btn.setAttribute('aria-pressed', String(cat === activeCategory));
       btn.addEventListener('click', function () {
@@ -396,7 +351,23 @@
     });
   }
 
-  function setPreview(project, index, animate) {
+  function renderStatusLegend() {
+    var legend = $('#project-status-legend');
+    if (!legend) return;
+    clearNode(legend);
+
+    var statuses = [];
+    data.projects.forEach(function (project) {
+      if (!project.status || statuses.some(function (item) { return item.status === project.status; })) return;
+      statuses.push({ status: project.status, statusKey: project.statusKey });
+    });
+
+    statuses.forEach(function (item) {
+      legend.appendChild(createStatusBadge(item.status, item.statusKey));
+    });
+  }
+
+  function setPreview(project, animate) {
     var inner = $('#preview-inner');
     if (!inner || !project) return;
 
@@ -404,7 +375,6 @@
     activeProjectId = project.id;
 
     function fill() {
-      var idx = $('#preview-index');
       var meta = $('#preview-meta');
       var title = $('#preview-title');
       var summary = $('#preview-summary');
@@ -415,11 +385,10 @@
       var repoBtn = $('#preview-repo');
       var status = $('#preview-status');
 
-      if (idx) idx.textContent = pad2(index + 1);
       if (meta) meta.textContent = project.category;
       if (status) {
         status.textContent = project.status || 'Project';
-        status.className = 'preview-status status-badge mono';
+        status.className = 'status-badge';
         if (project.statusKey) {
           status.setAttribute('data-status', project.statusKey);
         }
@@ -431,12 +400,10 @@
       if (flow) {
         clearNode(flow);
         project.architecture.forEach(function (step, i) {
-          flow.appendChild(el('li', 'flow-node', step));
-          if (i < project.architecture.length - 1) {
-            var arrow = el('li', 'flow-arrow', '→');
-            arrow.setAttribute('aria-hidden', 'true');
-            flow.appendChild(arrow);
-          }
+          var item = el('li', 'flow-node');
+          item.appendChild(el('span', 'flow-step-num', String(i + 1) + '.'));
+          item.appendChild(document.createTextNode(step));
+          flow.appendChild(item);
         });
       }
 
@@ -460,16 +427,6 @@
         }
       }
 
-      var demoBtn = $('#preview-demo');
-      if (demoBtn) {
-        if (project.demoUrl) {
-          demoBtn.href = project.demoUrl;
-          demoBtn.hidden = false;
-        } else {
-          demoBtn.hidden = true;
-        }
-      }
-
       inner.classList.remove('is-updating');
     }
 
@@ -477,17 +434,17 @@
       inner.classList.add('is-updating');
       window.setTimeout(function () {
         if (token === previewToken) fill();
-      }, 110);
+      }, 100);
     } else {
       fill();
     }
   }
 
-  function setActiveRow(row, project, index) {
+  function setActiveRow(row, project) {
     $all('.project-row').forEach(function (item) {
       item.classList.toggle('is-active', item === row);
     });
-    setPreview(project, index, true);
+    setPreview(project, true);
   }
 
   function renderProjects() {
@@ -501,39 +458,37 @@
 
     var count = $('#work-count');
     if (count) {
-      count.textContent = pad2(filtered.length) + (filtered.length === 1 ? ' entry' : ' entries');
+      count.textContent = filtered.length + (filtered.length === 1 ? ' project' : ' projects');
     }
 
-    filtered.forEach(function (proj, index) {
+    filtered.forEach(function (proj) {
       var row = el('button', 'project-row');
       row.type = 'button';
       row.setAttribute('data-id', proj.id);
 
-      row.appendChild(el('span', 'row-index mono', pad2(index + 1)));
+      var head = el('div', 'row-head');
+      var titleWrap = el('div', 'row-title-wrap');
+      titleWrap.appendChild(el('span', 'row-title', proj.title));
+      if (proj.tagline) {
+        titleWrap.appendChild(el('span', 'row-tagline', proj.tagline));
+      }
+      head.appendChild(titleWrap);
+      row.appendChild(head);
 
-      var main = el('span', 'row-main');
-      main.appendChild(el('span', 'row-title', proj.title));
-      main.appendChild(el('span', 'row-summary', proj.summary));
+      row.appendChild(el('p', 'row-summary', proj.summary));
 
-      var tags = el('span', 'row-tags');
+      var tags = el('div', 'row-tags');
+      if (proj.year) tags.appendChild(el('span', 'row-year mono', proj.year));
       tags.appendChild(createStatusBadge(proj.status, proj.statusKey));
-      tags.appendChild(el('span', 'row-category mono', proj.category));
-      main.appendChild(tags);
-      row.appendChild(main);
-
-      var side = el('span', 'row-side');
-      side.appendChild(el('span', 'row-open-hint mono', 'Autopsy'));
-      row.appendChild(side);
-
-      var arrow = el('span', 'row-arrow', '↗');
-      arrow.setAttribute('aria-hidden', 'true');
-      row.appendChild(arrow);
+      tags.appendChild(el('span', 'row-category', proj.category));
+      tags.appendChild(el('span', 'row-action-hint', 'Read case study'));
+      row.appendChild(tags);
 
       row.addEventListener('mouseenter', function () {
         window.clearTimeout(hoverIntentTimer);
         hoverIntentTimer = window.setTimeout(function () {
           if (activeProjectId !== proj.id) {
-            setActiveRow(row, proj, index);
+            setActiveRow(row, proj);
           }
         }, 75);
       });
@@ -544,12 +499,12 @@
 
       row.addEventListener('focus', function () {
         if (activeProjectId !== proj.id) {
-          setActiveRow(row, proj, index);
+          setActiveRow(row, proj);
         }
       });
 
       row.addEventListener('click', function () {
-        setActiveRow(row, proj, index);
+        setActiveRow(row, proj);
         openProjectModal(proj.id);
       });
 
@@ -557,7 +512,7 @@
     });
 
     if (filtered.length) {
-      setPreview(filtered[0], 0, false);
+      setPreview(filtered[0], false);
       var firstRow = $('.project-row', grid);
       if (firstRow) firstRow.classList.add('is-active');
     } else {
@@ -575,7 +530,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     Project Autopsy Modal & Interactive Architecture Stages
+     Project Case Study Dialog
      ------------------------------------------------------------------------ */
   var currentModalProjectId = null;
 
@@ -611,7 +566,7 @@
 
     currentModalProjectId = proj.id;
 
-    $('#modal-category').textContent = [proj.category, proj.status, proj.role].filter(Boolean).join(' • ');
+    $('#modal-category').textContent = proj.category + ' (' + proj.status + ')';
     $('#modal-title').textContent = proj.title;
 
     var modalBody = $('#modal-body');
@@ -620,15 +575,15 @@
 
     // 1. Problem & Objectives
     var problemBlock = el('section', 'case-block');
-    problemBlock.appendChild(el('h3', '', 'Problem & objectives'));
+    problemBlock.appendChild(el('h3', '', 'Problem and objectives'));
     problemBlock.appendChild(el('p', '', proj.problem));
     modalBody.appendChild(problemBlock);
 
-    // 2. Interactive System Architecture
+    // 2. Interactive Execution Sequence
     var archBlock = el('section', 'case-block');
-    archBlock.appendChild(el('h3', '', 'System architecture (select a stage)'));
+    archBlock.appendChild(el('h3', '', 'System sequence (select a stage to inspect)'));
     var flow = el('ol', 'arch-flow');
-    flow.setAttribute('aria-label', 'Interactive system architecture stages');
+    flow.setAttribute('aria-label', 'Project system stages');
 
     var stageNotes = proj.stageNotes || [];
     var inspector = el('div', 'arch-inspector', stageNotes[0] || proj.summary);
@@ -639,7 +594,7 @@
       var btn = el('button', 'arch-stage-btn' + (index === 0 ? ' is-active' : ''));
       btn.type = 'button';
       btn.setAttribute('aria-pressed', String(index === 0));
-      btn.appendChild(el('span', 'arch-step-index mono', pad2(index + 1)));
+      btn.appendChild(el('span', 'arch-step-index', 'Step ' + (index + 1)));
       btn.appendChild(el('span', 'arch-step-label', step));
 
       btn.addEventListener('click', function () {
@@ -660,9 +615,9 @@
     archBlock.appendChild(inspector);
     modalBody.appendChild(archBlock);
 
-    // 3. Technical Approach & Key Decisions
+    // 3. Key Decisions
     var tradeoffsBlock = el('section', 'case-block');
-    tradeoffsBlock.appendChild(el('h3', '', 'Key decisions & trade-offs'));
+    tradeoffsBlock.appendChild(el('h3', '', 'Key decisions and trade-offs'));
     var tradeoffsList = el('ul', 'case-list');
     proj.tradeoffs.forEach(function (item) {
       tradeoffsList.appendChild(el('li', '', item));
@@ -683,7 +638,7 @@
     // 5. Failure Handling
     if (proj.failureModes && proj.failureModes.length) {
       var failureBlock = el('section', 'case-block');
-      failureBlock.appendChild(el('h3', '', 'Failure handling & safeguards'));
+      failureBlock.appendChild(el('h3', '', 'Failure handling'));
       var failureList = el('ul', 'case-list');
       proj.failureModes.forEach(function (item) {
         failureList.appendChild(el('li', '', item));
@@ -694,7 +649,7 @@
 
     // 6. Limitations
     var limitsBlock = el('section', 'case-block case-limits');
-    limitsBlock.appendChild(el('h3', '', 'Limitations & scope'));
+    limitsBlock.appendChild(el('h3', '', 'Limitations and open scope'));
     var limitsList = el('ul', 'case-list');
     (proj.limitations || []).forEach(function (item) {
       limitsList.appendChild(el('li', '', item));
@@ -702,26 +657,23 @@
     limitsBlock.appendChild(limitsList);
     modalBody.appendChild(limitsBlock);
 
-    // 7. Linked Research Inquiry
+    // 7. Connected Research Question
     if (proj.researchId) {
       var linkedResearch = (data.research || []).find(function (r) {
         return r.id === proj.researchId;
       });
       if (linkedResearch) {
         var resBlock = el('section', 'case-block');
-        resBlock.appendChild(el('h3', '', 'Connected research inquiry'));
+        resBlock.appendChild(el('h3', '', 'Related open question'));
         var resBox = el('div', 'case-research-link');
-        resBox.appendChild(el('p', '', 'Inquiry ' + linkedResearch.index + ': ' + linkedResearch.question));
-        var jumpBtn = el('button', 'btn btn-secondary btn-sm', 'View in Frontier ↓');
+        resBox.appendChild(el('p', '', linkedResearch.index + ': ' + linkedResearch.question));
+        var jumpBtn = el('button', 'btn btn-secondary btn-sm', 'View question');
         jumpBtn.type = 'button';
         jumpBtn.addEventListener('click', function () {
           closeDialog(modal);
-          var target = $('#research-' + linkedResearch.id);
+          var target = $('#research-' + linkedResearch.id) || $('#research');
           if (target) {
             target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
-          } else {
-            var resSec = $('#research');
-            if (resSec) resSec.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
           }
         });
         resBox.appendChild(jumpBtn);
@@ -730,9 +682,9 @@
       }
     }
 
-    // 8. Stack
+    // 8. Tools
     var stackBlock = el('section', 'case-block');
-    stackBlock.appendChild(el('h3', '', 'Technologies'));
+    stackBlock.appendChild(el('h3', '', 'Technologies used'));
     var chips = el('div', 'chip-list');
     proj.stack.forEach(function (tech) {
       chips.appendChild(el('span', 'chip', tech));
@@ -740,11 +692,11 @@
     stackBlock.appendChild(chips);
     modalBody.appendChild(stackBlock);
 
-    // 9. Artifacts & Links
+    // 9. Artifacts
     var actions = el('div', 'case-actions');
     (proj.artifacts || []).forEach(function (artifact, index) {
       actions.appendChild(createExternalLink(
-        artifact.label + ' ↗',
+        artifact.label,
         artifact.url,
         index === 0 ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm'
       ));
@@ -795,7 +747,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     Interactive Evidence Graph (Capabilities <-> Projects <-> Research)
+     Capability Evidence Matrix
      ------------------------------------------------------------------------ */
   function initEvidenceGraph() {
     var stackContainer = $('#stack-groups');
@@ -843,13 +795,13 @@
 
         var projNames = linkedProjs.map(function (pid) {
           var pObj = data.projects.find(function (x) { return x.id === pid; });
-          return pObj ? pObj.title.split(' — ')[0] : pid;
+          return pObj ? pObj.title : pid;
         });
 
         if (linkedProjs.length) {
-          statusText.textContent = selectedSkill + ' — evidenced in ' + projNames.join(', ') + '.';
+          statusText.textContent = selectedSkill + ' is used in ' + projNames.join(' and ') + '.';
         } else {
-          statusText.textContent = selectedSkill + ' — ' + ((entry && entry.note) || 'engineering workflow practice.');
+          statusText.textContent = selectedSkill + ': ' + ((entry && entry.note) || 'Engineering workflow practice.');
         }
         if (resetBtn) resetBtn.hidden = false;
       } else if (selectedProjectId) {
@@ -868,18 +820,18 @@
             activeResearchIds[projObj.researchId] = true;
           }
           statusText.textContent =
-            projObj.title.split(' — ')[0] +
-            ' — connects ' +
+            projObj.title +
+            ' demonstrates ' +
             Object.keys(activeSkillNames).length +
-            ' tracked capabilities' +
-            (projObj.researchId ? ' and 1 open inquiry.' : '.');
+            ' listed tools' +
+            (projObj.researchId ? ' and connects to one open research question.' : '.');
         }
         if (resetBtn) resetBtn.hidden = false;
       } else {
         statusText.textContent =
-          'Showing ' +
+          'Showing all ' +
           data.skills.length +
-          ' capability layers connected across ' +
+          ' capability groups across ' +
           data.projects.length +
           ' repositories and ' +
           (data.research || []).length +
@@ -887,10 +839,10 @@
         if (resetBtn) resetBtn.hidden = true;
       }
 
-      // Render skill groups
+      // Render skill chips
       data.skills.forEach(function (group) {
         var row = el('div', 'stack-group');
-        row.appendChild(el('span', 'stack-group-name mono', group.group));
+        row.appendChild(el('span', 'stack-group-name', group.group));
 
         var chips = el('div', 'chip-list');
         group.items.forEach(function (item) {
@@ -898,8 +850,9 @@
           btn.type = 'button';
           btn.appendChild(document.createTextNode(item.name));
 
-          var countLabel = item.projects.length ? pad2(item.projects.length) : 'CI';
-          btn.appendChild(el('span', 'evidence-chip-count mono', countLabel));
+          if (item.projects.length) {
+            btn.appendChild(el('span', 'evidence-chip-count', '(' + item.projects.length + ')'));
+          }
 
           var isSel = selectedSkill === item.name;
           var isHigh = activeSkillNames && activeSkillNames[item.name];
@@ -923,7 +876,7 @@
         stackContainer.appendChild(row);
       });
 
-      // Render project target cards (sibling buttons to avoid nested interactive controls)
+      // Render project target rows (sibling buttons)
       data.projects.forEach(function (proj) {
         var row = el('div', 'evidence-target-row');
 
@@ -939,18 +892,16 @@
         mainBtn.type = 'button';
         mainBtn.setAttribute('aria-pressed', String(isSel));
         mainBtn.appendChild(el('span', 'evidence-target-title', proj.title));
-
-        var meta = el('span', 'evidence-target-meta mono', proj.status);
-        mainBtn.appendChild(meta);
+        mainBtn.appendChild(el('span', 'evidence-target-meta', proj.status));
         mainBtn.addEventListener('click', function () {
           selectedSkill = null;
           selectedProjectId = selectedProjectId === proj.id ? null : proj.id;
           renderGraph();
         });
 
-        var autopsyBtn = el('button', 'evidence-target-side', 'Autopsy ↗');
+        var autopsyBtn = el('button', 'evidence-target-side', 'Case study');
         autopsyBtn.type = 'button';
-        autopsyBtn.setAttribute('aria-label', 'Open project autopsy for ' + proj.title);
+        autopsyBtn.setAttribute('aria-label', 'Open case study for ' + proj.title);
         autopsyBtn.addEventListener('click', function () {
           openProjectModal(proj.id);
         });
@@ -960,7 +911,7 @@
         projContainer.appendChild(row);
       });
 
-      // Render research inquiry cards
+      // Render research cards
       (data.research || []).forEach(function (res) {
         var card = el('button', 'evidence-target-card');
         card.type = 'button';
@@ -971,11 +922,11 @@
         card.classList.toggle('is-highlighted', Boolean(isHigh));
         card.classList.toggle('is-dimmed', Boolean(isDim));
 
-        card.appendChild(el('span', 'evidence-target-title', 'Inquiry ' + res.index + ' · ' + res.project));
+        card.appendChild(el('span', 'evidence-target-title', res.index + ': ' + res.project));
 
-        var meta = el('div', 'evidence-target-meta mono');
+        var meta = el('div', 'evidence-target-meta');
         meta.appendChild(el('span', '', res.status));
-        meta.appendChild(el('span', 'evidence-target-action', 'Jump ↓'));
+        meta.appendChild(el('span', 'evidence-target-action', 'Jump to question'));
         card.appendChild(meta);
 
         card.addEventListener('click', function () {
@@ -1001,7 +952,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     Research Frontier with Expandable Lab Notes
+     Open Research Questions
      ------------------------------------------------------------------------ */
   function renderResearch() {
     var grid = $('#research-grid');
@@ -1013,25 +964,25 @@
       article.id = 'research-' + item.id;
 
       var head = el('div', 'research-head');
-      head.appendChild(el('span', 'research-index mono', 'Q-' + item.index));
-      head.appendChild(el('span', 'research-project mono', item.project + ' · ' + item.status));
+      head.appendChild(el('span', 'research-index', item.index));
+      head.appendChild(el('span', 'research-project', item.project));
       article.appendChild(head);
 
       article.appendChild(el('h3', 'research-question', item.question));
 
       var method = el('div', 'research-evidence');
-      method.appendChild(el('span', 'research-label mono', 'Method'));
+      method.appendChild(el('span', 'research-label', 'Method'));
       method.appendChild(el('p', '', item.method));
       article.appendChild(method);
 
       var evidence = el('div', 'research-evidence');
-      evidence.appendChild(el('span', 'research-label mono', 'Evidence'));
+      evidence.appendChild(el('span', 'research-label', 'Current evidence'));
       evidence.appendChild(el('p', '', item.evidence));
       article.appendChild(evidence);
 
       if (item.contextNote) {
         var noteWrap = el('div', 'research-notes-wrap');
-        var noteBtn = el('button', 'research-note-btn mono', 'Read lab note +');
+        var noteBtn = el('button', 'research-note-btn', 'Read context note');
         noteBtn.type = 'button';
         noteBtn.setAttribute('aria-expanded', 'false');
 
@@ -1042,7 +993,7 @@
           var open = notePanel.hidden;
           notePanel.hidden = !open;
           noteBtn.setAttribute('aria-expanded', String(open));
-          noteBtn.textContent = open ? 'Hide lab note −' : 'Read lab note +';
+          noteBtn.textContent = open ? 'Hide context note' : 'Read context note';
         });
 
         noteWrap.appendChild(noteBtn);
@@ -1052,14 +1003,14 @@
 
       var actions = el('div', 'research-actions');
       if (item.projectId) {
-        var autopsyBtn = el('button', 'research-autopsy-btn', 'Inspect autopsy →');
+        var autopsyBtn = el('button', 'research-autopsy-btn', 'Read case study');
         autopsyBtn.type = 'button';
         autopsyBtn.addEventListener('click', function () {
           openProjectModal(item.projectId);
         });
         actions.appendChild(autopsyBtn);
       }
-      actions.appendChild(createExternalLink('Source record ↗', item.link, 'research-link'));
+      actions.appendChild(createExternalLink('View source', item.link, 'research-link'));
       article.appendChild(actions);
 
       grid.appendChild(article);
@@ -1067,14 +1018,14 @@
   }
 
   /* ------------------------------------------------------------------------
-     Education & Engineering Practice
+     Education & Engineering Principles
      ------------------------------------------------------------------------ */
   function renderPractice() {
     var eduPanel = $('#education-panel');
     if (eduPanel && data.education) {
       clearNode(eduPanel);
       var ed = data.education;
-      eduPanel.appendChild(el('span', 'edu-kicker mono', ed.kicker + ' · ' + ed.period));
+      eduPanel.appendChild(el('span', 'edu-kicker', ed.label + ' · ' + ed.status + (ed.period ? ' · ' + ed.period : '')));
       eduPanel.appendChild(el('h3', 'edu-degree', ed.degree));
       eduPanel.appendChild(el('p', 'edu-school', ed.institution));
 
@@ -1084,7 +1035,7 @@
       });
       eduPanel.appendChild(pointsList);
 
-      var cvBtn = el('button', 'btn btn-secondary btn-sm', 'Print / Save CV Dossier');
+      var cvBtn = el('button', 'btn btn-secondary btn-sm', 'Print CV');
       cvBtn.type = 'button';
       cvBtn.addEventListener('click', triggerPrintDossier);
       eduPanel.appendChild(cvBtn);
@@ -1094,20 +1045,34 @@
     if (!list) return;
     clearNode(list);
 
-    data.experience.forEach(function (item) {
-      var li = el('li', 'timeline-item');
-
-      var head = el('div', 'timeline-head');
+    (data.experience || []).forEach(function (item) {
+      var li = el('li', 'experience-item');
+      var head = el('div', 'experience-head');
       var titleGroup = el('div');
-      titleGroup.appendChild(el('div', 'timeline-role', item.role));
-      titleGroup.appendChild(el('div', 'timeline-org', item.organization));
-
+      titleGroup.appendChild(el('div', 'experience-role', item.role));
+      titleGroup.appendChild(el('div', 'experience-org', item.organization));
       head.appendChild(titleGroup);
-      head.appendChild(el('span', 'timeline-period mono', item.period));
+      head.appendChild(el('span', 'experience-period mono', item.period));
       li.appendChild(head);
 
-      var bullets = el('ul', 'timeline-bullets');
-      item.bullets.forEach(function (b) {
+      var bullets = el('ul', 'experience-bullets');
+      item.bullets.forEach(function (bullet) {
+        bullets.appendChild(el('li', '', bullet));
+      });
+      li.appendChild(bullets);
+      list.appendChild(li);
+    });
+
+    (data.principles || []).forEach(function (item) {
+      var li = el('li', 'principle-item');
+
+      var head = el('div', 'principle-head');
+      head.appendChild(el('div', 'principle-title', item.title));
+      head.appendChild(el('div', 'principle-context', item.context));
+      li.appendChild(head);
+
+      var bullets = el('ul', 'principle-bullets');
+      item.points.forEach(function (b) {
         bullets.appendChild(el('li', '', b));
       });
       li.appendChild(bullets);
@@ -1117,7 +1082,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     Interactive CLI Terminal
+     Interactive Command Line
      ------------------------------------------------------------------------ */
   function initTerminal() {
     var dialog = $('#terminal-modal');
@@ -1158,8 +1123,8 @@
     function bootMessage() {
       if (initialized) return;
       initialized = true;
-      appendLine(data.profile.name + ' Engineering Observatory CLI v1.2', 'term-success');
-      appendLine("Type 'help' for commands, or press Tab to autocomplete.", 'term-muted');
+      appendLine(data.profile.name + ' portfolio command line', 'term-success');
+      appendLine("Type 'help' for available commands, or press Tab to autocomplete.", 'term-muted');
     }
 
     function openTerminal(initialCommand) {
@@ -1180,7 +1145,7 @@
       history.unshift(trimmed);
       historyIndex = -1;
 
-      appendLine('visitor@observatory:~$ ' + trimmed, 'term-cmd');
+      appendLine('guest@portfolio:~$ ' + trimmed, 'term-cmd');
 
       var parts = trimmed.split(/\s+/);
       var cmd = parts[0].toLowerCase();
@@ -1191,36 +1156,36 @@
           appendLine(
             [
               'Available commands:',
-              '  whoami / about     Profile, institution, and engineering focus',
-              '  projects           List all 4 projects with status & clickable autopsies',
-              '  open <id>          Open project autopsy (e.g. open fundusnet)',
-              '  research           List open research frontier questions',
-              '  skills             Display capabilities grouped by layer',
-              '  evidence <tech>    Trace where a technology is evidenced',
-              '  experience         Display academic background & principles',
+              '  whoami / about     Profile, college, and focus',
+              '  projects           List all four projects with clickable case studies',
+              '  open <id>          Open case study (fundusnet, jobmatch, finai, ledgepill)',
+              '  research           List open research questions',
+              '  skills             Display tools grouped by domain',
+              '  evidence <tech>    Show which projects use a given tool',
+              '  experience         Display academic program and principles',
               '  contact            Show email and social profiles',
-              '  theme [dark|light] Switch between Plate (dark) and Paper (light)',
-              '  print              Print / save CV dossier',
-              '  clear              Clear terminal log',
-              '  exit               Close CLI'
+              '  theme [dark|light] Switch color theme',
+              '  print              Print or save CV',
+              '  clear              Clear output',
+              '  exit               Close window'
             ].join('\n')
           );
           break;
 
         case 'whoami':
         case 'about':
-          appendLine(data.profile.name + ' — ' + data.profile.role, 'term-success');
+          appendLine(data.profile.name + ', ' + data.profile.role, 'term-success');
           appendLine(data.profile.subtitle);
-          appendLine(data.profile.focus + ' | ' + data.profile.location, 'term-muted');
+          appendLine(data.profile.focus + ' (' + data.profile.location + ')', 'term-muted');
           break;
 
         case 'projects':
           data.projects.forEach(function (proj) {
             var line = el('div', 'term-line');
             line.appendChild(
-              document.createTextNode('[' + proj.id + '] ' + proj.title + ' · ' + proj.status + ' — ')
+              document.createTextNode('[' + proj.id + '] ' + proj.title + ' (' + proj.status + ') ')
             );
-            var btn = el('button', 'term-link', 'open autopsy');
+            var btn = el('button', 'term-link', 'Open case study');
             btn.type = 'button';
             btn.addEventListener('click', function () {
               closeDialog(dialog);
@@ -1235,16 +1200,16 @@
         case 'open':
         case 'project': {
           if (!arg) {
-            appendLine('Usage: open <project-id> (e.g. open fundusnet, jobmatch, finai, ledgepill)', 'term-error');
+            appendLine('Usage: open <project-id> (e.g. open fundusnet)', 'term-error');
             break;
           }
           var match = data.projects.find(function (p) {
             return p.id.toLowerCase() === arg.toLowerCase();
           });
           if (!match) {
-            appendLine('Project "' + arg + '" not found. Run "projects" to see IDs.', 'term-error');
+            appendLine('Project "' + arg + '" not found. Run "projects" to see valid IDs.', 'term-error');
           } else {
-            appendLine('Opening autopsy for ' + match.title + '...', 'term-success');
+            appendLine('Opening case study for ' + match.title + '...', 'term-success');
             closeDialog(dialog);
             openProjectModal(match.id);
           }
@@ -1254,20 +1219,20 @@
         case 'research':
         case 'frontier':
           (data.research || []).forEach(function (r) {
-            appendLine('[Q-' + r.index + '] (' + r.project + ') ' + r.question);
+            appendLine(r.index + ' (' + r.project + '): ' + r.question);
           });
           break;
 
         case 'skills':
           data.skills.forEach(function (grp) {
             var names = grp.items.map(function (i) { return i.name; });
-            appendLine(grp.group.padEnd(18, ' ') + ': ' + names.join(', '));
+            appendLine(grp.group.padEnd(20, ' ') + ': ' + names.join(', '));
           });
           break;
 
         case 'evidence': {
           if (!arg) {
-            appendLine('Usage: evidence <technology> (e.g. evidence pytorch)', 'term-error');
+            appendLine('Usage: evidence <tool> (e.g. evidence pytorch)', 'term-error');
             break;
           }
           var query = arg.toLowerCase();
@@ -1280,11 +1245,11 @@
             });
           });
           if (!matches.length) {
-            appendLine('No tracked capability matched "' + arg + '".', 'term-error');
+            appendLine('No listed tool matched "' + arg + '".', 'term-error');
           } else {
             matches.forEach(function (m) {
               var repoNames = m.projects.length ? m.projects.join(', ') : (m.note || 'workflow practice');
-              appendLine(m.name + ' → ' + repoNames, 'term-success');
+              appendLine(m.name + ': ' + repoNames, 'term-success');
             });
           }
           break;
@@ -1292,10 +1257,14 @@
 
         case 'experience':
           if (data.education) {
-            appendLine(data.education.degree + ' — ' + data.education.institution, 'term-success');
+            appendLine(data.education.degree + ', ' + data.education.institution, 'term-success');
+            if (data.education.period) appendLine(data.education.period, 'term-muted');
           }
-          data.experience.forEach(function (item) {
+          (data.experience || []).forEach(function (item) {
             appendLine(item.period + ' — ' + item.role + ' (' + item.organization + ')');
+          });
+          (data.principles || []).forEach(function (item) {
+            appendLine(item.title + ' (' + item.context + ')');
           });
           break;
 
@@ -1310,11 +1279,11 @@
           var targetTheme = arg.toLowerCase();
           if (targetTheme === 'light' || targetTheme === 'dark') {
             setTheme(targetTheme);
-            appendLine(registerLabel(targetTheme) + ' applied.', 'term-success');
+            appendLine('Switched to ' + targetTheme + ' theme.', 'term-success');
           } else {
             var next = getTheme() === 'dark' ? 'light' : 'dark';
             setTheme(next);
-            appendLine(registerLabel(next) + ' applied.', 'term-success');
+            appendLine('Switched to ' + next + ' theme.', 'term-success');
           }
           break;
         }
@@ -1404,14 +1373,12 @@
       }
     });
 
-    var triggerBtns = [$('#terminal-toggle')];
-    triggerBtns.forEach(function (btn) {
-      if (btn) {
-        btn.addEventListener('click', function () {
-          openTerminal();
-        });
-      }
-    });
+    var triggerBtn = $('#terminal-toggle');
+    if (triggerBtn) {
+      triggerBtn.addEventListener('click', function () {
+        openTerminal();
+      });
+    }
 
     $all('[data-cmd]').forEach(function (chip) {
       chip.addEventListener('click', function () {
@@ -1449,7 +1416,7 @@
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(email).then(
             function () {
-              showToast('Copied ' + email + ' to clipboard');
+              showToast('Copied email address');
             },
             function () {
               showToast('Email: ' + email);
@@ -1488,17 +1455,17 @@
       var valid = true;
 
       if (name.length < 2) {
-        errName.textContent = 'Please enter your name (at least 2 characters).';
+        errName.textContent = 'Enter your name (at least 2 characters).';
         valid = false;
       }
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errEmail.textContent = 'Please enter a valid email address.';
+        errEmail.textContent = 'Enter a valid email address.';
         valid = false;
       }
 
       if (message.length < 10) {
-        errMsg.textContent = 'Please write a short message (at least 10 characters).';
+        errMsg.textContent = 'Write a message (at least 10 characters).';
         valid = false;
       }
 
@@ -1510,25 +1477,22 @@
 
       clearNode(statusBox);
       statusBox.appendChild(
-        document.createTextNode(
-          'Validated locally. Open a prepared draft in your mail app: '
-        )
+        document.createTextNode('Email draft prepared for your mail app: ')
       );
-      var mailLink = el('a', 'term-link', 'Open email draft ↗');
+      var mailLink = el('a', 'term-link', 'Open prepared email');
       mailLink.href = mailtoHref;
       statusBox.appendChild(mailLink);
       statusBox.hidden = false;
 
-      showToast('Draft ready to send');
+      showToast('Email draft prepared');
       form.reset();
     });
   }
 
   /* ------------------------------------------------------------------------
-     Scroll Reveal & Active Navigation
+     Active Navigation Tracking
      ------------------------------------------------------------------------ */
-  function initObservers() {
-    var reveals = $all('.hero .reveal');
+  function initActiveNav() {
     var navLinks = $all('.nav-link');
     var sections = ['projects', 'about', 'research', 'experience', 'contact']
       .map(function (id) {
@@ -1537,36 +1501,13 @@
       .filter(Boolean);
 
     if ('IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(
-        function (entries, observer) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.06 }
-      );
-
-      reveals.forEach(function (node) {
-        node.classList.add('reveal-ready');
-        revealObserver.observe(node);
-      });
-
       var navObserver = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
               var id = '#' + entry.target.id;
               navLinks.forEach(function (link) {
-                var match = link.getAttribute('href') === id;
-                link.classList.toggle('is-active', match);
-                if (match) {
-                  link.setAttribute('aria-current', 'page');
-                } else {
-                  link.removeAttribute('aria-current');
-                }
+                link.classList.toggle('is-active', link.getAttribute('href') === id);
               });
             }
           });
@@ -1580,39 +1521,12 @@
     }
   }
 
-  function initScrollProgress() {
-    var bar = $('#scroll-progress');
-    if (!bar) return;
-    var ticking = false;
-
-    function update() {
-      var doc = document.documentElement;
-      var max = doc.scrollHeight - window.innerHeight;
-      var progress = max > 0 ? (window.scrollY / max) * 100 : 0;
-      bar.style.setProperty('--progress', Math.min(100, Math.max(0, progress)).toFixed(2) + '%');
-      ticking = false;
-    }
-
-    window.addEventListener(
-      'scroll',
-      function () {
-        if (!ticking) {
-          ticking = true;
-          window.requestAnimationFrame(update);
-        }
-      },
-      { passive: true }
-    );
-
-    window.addEventListener('resize', update);
-    update();
-  }
-
   /* ------------------------------------------------------------------------
      Boot
      ------------------------------------------------------------------------ */
   hydrateProfile();
   renderFilters();
+  renderStatusLegend();
   renderProjects();
   initEvidenceGraph();
   renderResearch();
@@ -1628,9 +1542,5 @@
   initProjectPreview();
   initTerminal();
   initContact();
-  initObservers();
-  initScrollProgress();
-
-  updateClock();
-  window.setInterval(updateClock, 15000);
+  initActiveNav();
 })();

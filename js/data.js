@@ -1,30 +1,28 @@
 /**
  * Portfolio Content Configuration
  * ---------------------------------------------------------------------------
- * Personal profile, projects, capabilities, research inquiries, and
- * background based strictly on Maria Kevin's documented repositories and
- * public details.
+ * Profile, projects, capabilities, research notes, and background based on
+ * Maria Kevin's documented repositories and public details.
  */
 window.PORTFOLIO_DATA = {
   profile: {
     name: 'Maria Kevin',
-    role: 'Software Developer',
+    role: 'Software developer',
     description:
-      'Maria Kevin — MCA student in Chennai building applied machine learning, thoughtful products, and native systems.',
-    status: 'MCA student · building applied AI and native systems',
-    headlinePrefix: 'I make intelligence useful and ',
-    headlineAccent: 'systems understandable.',
-    subtitle:
-      "I'm an MCA student in Chennai building at the intersection of machine learning, thoughtful products, and the systems that support them.",
-    focus: 'MCA · SRM Valliammai Engineering College, Chennai',
-    location: 'Chennai, India',
+      'Maria Kevin is an MCA student in Chennai building applied machine learning, student tools, and native desktop software.',
+    status: 'MCA student in Chennai building applied AI and native systems',
     timezone: 'Asia/Kolkata',
-    cvUrl: '',
+    cvUrl: 'assets/maria-kevin-resume.pdf',
+    headline: 'I make machine intelligence useful and software systems understandable.',
+    subtitle:
+      'My work connects machine learning, thoughtful product design, and native systems engineering so decisions stay inspectable rather than hidden behind scores.',
+    focus: 'MCA student at SRM Valliammai Engineering College',
+    location: 'Chennai, India',
     email: 'mariakevin0504@gmail.com',
-    bioTitle: 'Software that shows its work.',
+    bioTitle: 'Software that shows its work',
     bioParagraphs: [
-      'Most of my work connects machine learning, thoughtful product design, and systems engineering. I enjoy finding out what becomes possible when those layers are designed together.',
-      'The projects here focus on inspectable decisions: evidence behind a match, uncertainty behind a prediction, or native software shaped by its platform.'
+      'Most of my projects sit where machine learning, interface design, and operating-system APIs meet. Building across those layers makes it easier to see how one boundary affects another.',
+      'Across these repositories, the goal is consistent: keep uncertainty visible in predictions, separate hard eligibility rules from matching scores, and respect native platform conventions.'
     ],
     socials: [
       { label: 'GitHub', url: 'https://github.com/Mariakevin' },
@@ -34,16 +32,26 @@ window.PORTFOLIO_DATA = {
   },
 
   education: {
-    kicker: 'Academic Program',
+    label: 'Academic program',
     degree: 'Master of Computer Applications (MCA)',
-    institution: 'SRM Valliammai Engineering College · Chennai, India',
+    institution: 'SRM Valliammai Engineering College, Chennai',
+    status: 'In progress',
     period: '2025 – 2027',
     points: [
-      'SRM Valliammai Engineering College · Chennai, India',
-      'Exploring applied machine learning, explainable product workflows, and platform-native desktop software through independent repositories.',
-      'Documenting system boundaries, failure handling, and open limitations alongside every build.'
+      'Bachelor of Computer Applications (BCA), Apollo Arts & Science College (2022 – 2025).',
+      'Developing independent projects spanning medical imaging ensembles, explainable student tools, and cross-platform native companions.',
+      'Documenting architecture boundaries, failure cases, and unresolved evaluation gaps alongside source code.'
     ]
   },
+
+  experience: [
+    {
+      role: 'Co-Founder',
+      organization: 'Aestric',
+      period: 'Jul 2026 – Present',
+      bullets: ['Building Aestric alongside MCA studies and independent software projects.']
+    }
+  ],
 
   skills: [
     {
@@ -57,7 +65,7 @@ window.PORTFOLIO_DATA = {
       ]
     },
     {
-      group: 'Web products',
+      group: 'Web interfaces',
       items: [
         { name: 'React', projects: ['jobmatch', 'finai'] },
         { name: 'TypeScript', projects: ['jobmatch', 'finai'] },
@@ -67,7 +75,7 @@ window.PORTFOLIO_DATA = {
       ]
     },
     {
-      group: 'Backend & data',
+      group: 'APIs and storage',
       items: [
         { name: 'FastAPI', projects: ['jobmatch'] },
         { name: 'Django', projects: ['fundusnet'] },
@@ -87,13 +95,13 @@ window.PORTFOLIO_DATA = {
       ]
     },
     {
-      group: 'Quality & delivery',
+      group: 'Quality and tooling',
       items: [
         { name: 'Docker', projects: ['fundusnet'] },
-        { name: 'GitHub Actions', projects: [], note: 'CI workflow automation practice' },
-        { name: 'Ruff', projects: [], note: 'Python linting and formatting practice' },
-        { name: 'pre-commit', projects: [], note: 'Automated pre-commit check practice' },
-        { name: 'unittest', projects: [], note: 'Python unit testing practice' }
+        { name: 'GitHub Actions', projects: [], note: 'Continuous integration workflows across repositories' },
+        { name: 'Ruff', projects: [], note: 'Python linting and formatting workflows' },
+        { name: 'pre-commit', projects: [], note: 'Automated pre-commit checks' },
+        { name: 'unittest', projects: [], note: 'Python unit test suites' }
       ]
     }
   ],
@@ -101,211 +109,215 @@ window.PORTFOLIO_DATA = {
   projects: [
     {
       id: 'fundusnet',
-      title: 'FundusNet — Retinal Screening',
+      title: 'FundusNet',
+      tagline: 'Retinal screening research prototype',
       category: 'Applied ML',
+      year: '2026',
       status: 'Ongoing research prototype',
       statusKey: 'research',
-      year: '2026',
-      role: 'Research prototype · applied ML',
+      role: 'Applied ML research prototype',
       researchId: 'fundus-transfer',
       summary:
-        'A retinal-image screening research prototype that combines a five-model ensemble with uncertainty-aware inference and visual explanations.',
+        'A retinal-image screening prototype combining a five-model ensemble with uncertainty-aware inference and Grad-CAM visual explanations.',
       impact:
-        'Keeps uncertainty visible and uses Grad-CAM heatmaps to show image regions that influenced a prediction; uncertain cases are referred for specialist review.',
+        'Refers high-uncertainty scans for specialist review and pairs each prediction with heatmaps showing which retinal regions drove the output.',
       stack: ['Python', 'PyTorch', 'Django', 'OpenCV', 'ONNX Runtime', 'Docker'],
       demoUrl: '',
       repoUrl: 'https://github.com/Mariakevin/FundusNet',
       problem:
-        'A screening model should make its limits visible. FundusNet explores how to pair a retinal-image prediction with uncertainty signals and an explanation that can be reviewed.',
+        'A screening model should make its limits visible. FundusNet explores how to pair a retinal-image prediction with uncertainty signals and a visual explanation a reviewer can inspect.',
       architecture: [
-        'Fundus Image Validation',
-        'Image Quality Check',
-        'Five-Model Ensemble',
-        'Uncertainty-Aware Inference',
-        'Grad-CAM Explanation'
+        'Fundus image check',
+        'Image quality screen',
+        'Five-model ensemble',
+        'Uncertainty referral',
+        'Grad-CAM explanation'
       ],
       stageNotes: [
-        'Rejects non-fundus uploads upfront rather than forcing unrelated images through the retinal classifier.',
-        'Screens input quality before classification so degraded scans are flagged prior to prediction.',
-        'Combines five distinct model architectures with test-time augmentation to observe prediction stability.',
-        'Measures prediction uncertainty and routes high-uncertainty cases to specialist review instead of emitting a forced label.',
-        'Generates Grad-CAM visual heatmaps highlighting image regions that contributed to the four screening classes.'
+        'Rejects non-fundus uploads upfront so unrelated images are not forced through the retinal classifier.',
+        'Checks image quality ahead of inference so degraded scans are flagged before classification.',
+        'Combines five model architectures with test-time augmentation to observe prediction stability.',
+        'Measures uncertainty and refers borderline cases for specialist review rather than forcing a confident label.',
+        'Produces Grad-CAM heatmaps indicating which image regions contributed to healthy, cataract, glaucoma, or retinal disease outputs.'
       ],
       tradeoffs: [
-        'Uses multiple model architectures and test-time augmentation to explore prediction stability instead of relying on a single model output.',
-        'Treats high uncertainty as a reason for specialist review rather than forcing a confident label.'
+        'Uses five model architectures and test-time augmentation to examine stability instead of relying on a single network.',
+        'Treats high uncertainty as a trigger for human review rather than emitting a low-confidence class.'
       ],
       outcomes: [
-        'Produces four screening classes: healthy, cataract, glaucoma, and retinal disease.',
-        'Pairs predictions with confidence information and visual heatmaps for inspection.'
+        'Classifies scans across four categories: healthy, cataract, glaucoma, and retinal disease.',
+        'Outputs confidence signals and visual heatmaps alongside every screening result.'
       ],
       failureModes: [
-        'Non-fundus uploads are rejected by image validation instead of being passed through as retinal scans.',
-        'High-uncertainty predictions are withheld for specialist review rather than forced into a class.'
+        'Non-fundus uploads are rejected during input validation instead of being treated as eye scans.',
+        'Uncertain predictions are withheld for specialist inspection rather than forced into a category.'
       ],
       limitations: [
         'This is a research prototype, not a clinically validated medical device.',
-        'The documented training set is a public dataset; performance on new cameras, populations, and clinical settings still needs independent evaluation.'
+        'Training used a public dataset; generalization across unseen cameras, populations, and clinical settings remains untested.'
       ],
       artifacts: [
-        { label: 'Paper draft', url: 'https://github.com/Mariakevin/FundusNet/blob/main/docs/PAPER_DRAFT.md' },
-        { label: 'Source repository', url: 'https://github.com/Mariakevin/FundusNet' }
+        { label: 'Read paper draft', url: 'https://github.com/Mariakevin/FundusNet/blob/main/docs/PAPER_DRAFT.md' },
+        { label: 'View repository', url: 'https://github.com/Mariakevin/FundusNet' }
       ]
     },
     {
       id: 'jobmatch',
-      title: 'JobMatch AI — Evidence-Backed Matching',
-      category: 'AI / Product',
+      title: 'JobMatch AI',
+      year: '2026',
+      tagline: 'Evidence-backed internship matching',
+      category: 'Student tools',
       status: 'Ongoing prototype',
       statusKey: 'active',
-      year: '2026',
-      role: 'Product design & implementation',
+      role: 'Product design and implementation',
       researchId: 'evidence-extraction',
       summary:
-        'A student-side internship assistant that explains eligibility, skill evidence, practical fit, and listing warnings instead of returning an opaque match percentage.',
+        'A student-facing internship assistant that explains eligibility rules, skill evidence, practical constraints, and listing warnings instead of hiding behind an opaque score.',
       impact:
-        'Separates deterministic eligibility from fit scoring and preserves unknown or incomplete evidence for the student to review.',
+        'Keeps deterministic eligibility separate from fit scoring and leaves incomplete or conflicting facts visible for the student to review.',
       stack: ['Python', 'FastAPI', 'Pydantic', 'React', 'TypeScript', 'Vite'],
       demoUrl: '',
       repoUrl: 'https://github.com/Mariakevin/JobMatchAI',
       problem:
-        'Students need to know whether an internship fits their circumstances and what evidence supports that conclusion, without mistaking a score for a hiring prediction.',
+        'Students need to understand why an internship fits or fails their requirements without mistaking an automated match score for a hiring prediction.',
       architecture: [
-        'Resume & Listing Extraction',
-        'Deterministic Eligibility Rules',
-        'Skill Evidence Audit',
-        'Practical Constraints Check',
-        'Explainable Results Board'
+        'Untrusted text extraction',
+        'Deterministic eligibility',
+        'Skill evidence audit',
+        'Practical constraint check',
+        'Reviewable results board'
       ],
       stageNotes: [
-        'Parses resume and internship listing text as untrusted input, guarding against prompt-injection attempts.',
-        'Evaluates hard eligibility requirements deterministically so a high fit score never masks disqualifying criteria.',
-        'Audits matched and missing skills against explicit evidence rather than collapsing everything into one opaque number.',
-        'Checks practical circumstances while keeping unknown or conflicting facts visible for student confirmation.',
-        'Presents inspectable, editable facts and quoted listing warnings without claiming to predict hiring selection.'
+        'Parses resume and job-listing text as untrusted input, guarding against prompt-injection attempts.',
+        'Evaluates hard requirements with deterministic rules so a high fit score never masks disqualifying criteria.',
+        'Links each matched or missing skill to concrete evidence from the student profile.',
+        'Evaluates practical constraints while keeping unknown or conflicting details open for confirmation.',
+        'Displays editable extracted facts and quoted listing warnings without claiming to forecast interview odds.'
       ],
       tradeoffs: [
-        'Keeps hard eligibility rules separate from the fit score, so a high score cannot override ineligibility.',
-        'Labels unknown facts and incomplete scores explicitly rather than silently treating missing information as a failure.'
+        'Separates hard eligibility rules from fit scoring so missing a mandatory criterion cannot be hidden by keyword overlap.',
+        'Marks missing data as unknown instead of silently treating incomplete profiles as rejections.'
       ],
       outcomes: [
-        'Students can inspect and correct extracted facts, compare practical constraints, and see evidence for each assessment.',
-        'Listing warnings quote the text that triggered them, while the tool avoids claiming to predict selection.'
+        'Lets students inspect and correct extracted facts before relying on an assessment.',
+        'Quotes exact listing phrases whenever triggering a warning.'
       ],
       failureModes: [
-        'Resume and listing text are treated as untrusted input, including against prompt-injection attempts.',
-        'Unknown or conflicting eligibility facts stay visible and lead to confirmation instead of a silent rejection.'
+        'Resume and listing text are handled as untrusted strings, including defenses against prompt injection.',
+        'Conflicting or uncertain eligibility fields pause for confirmation rather than failing silently.'
       ],
       limitations: [
-        'It does not predict hiring outcomes, guarantee interviews, or verify an employer’s legal status.',
-        'Resume and listing extraction can be incomplete or uncertain, so students need to review and correct the evidence.'
+        'Does not predict hiring decisions, guarantee interviews, or verify an employer’s legal status.',
+        'Automated extraction can miss context, so students need to verify extracted facts.'
       ],
       artifacts: [
-        { label: 'Design research', url: 'https://github.com/Mariakevin/JobMatchAI/blob/main/docs/design-research.md' },
-        { label: 'Source repository', url: 'https://github.com/Mariakevin/JobMatchAI' }
+        { label: 'Read design research', url: 'https://github.com/Mariakevin/JobMatchAI/blob/main/docs/design-research.md' },
+        { label: 'View repository', url: 'https://github.com/Mariakevin/JobMatchAI' }
       ]
     },
     {
       id: 'finai',
-      title: 'FinAI — Personal Finance',
+      title: 'FinAI',
+      year: '2025',
+      tagline: 'Personal finance and budgeting',
       category: 'Product',
       status: 'Completed prototype',
       statusKey: 'completed',
-      year: '2025',
       role: 'Full-stack product',
       researchId: null,
       summary:
-        'A personal-finance app for transaction tracking, budgets, dashboards, charts, and spending insights generated with Google Gemini.',
+        'A personal-finance web application for transaction tracking, category budgets, spending charts, and recommendations powered by Google Gemini.',
       impact:
-        'Brings account activity, budget progress, and AI-generated spending insights into one finance dashboard.',
+        'Combines budget progress and spending trends in one dashboard while keeping model calls isolated behind a server-side edge function.',
       stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Gemini'],
       demoUrl: '',
       repoUrl: 'https://github.com/Mariakevin/FinAI',
       problem:
-        'Personal finance data can be difficult to turn into a clear view of spending and budget progress.',
+        'Raw transaction lists rarely give a clear picture of recurring expenses or budget headroom without manual spreadsheet cleanup.',
       architecture: [
-        'React & TypeScript Interface',
-        'Transaction and Budget Views',
-        'Supabase Authentication',
-        'PostgreSQL Storage',
-        'Gemini Insights via Edge Function'
+        'React TypeScript client',
+        'Budget and chart views',
+        'Supabase authentication',
+        'PostgreSQL ledger',
+        'Edge function proxy'
       ],
       stageNotes: [
-        'Client application built with React, TypeScript, Vite, and Tailwind CSS for responsive account navigation.',
-        'Structured views and charts tracking income, expenses, budgets, and spending patterns.',
-        'User authentication and session management handled through Supabase Auth.',
-        'Persistent relational storage of transactions and budgets backed by PostgreSQL.',
-        'Routes Google Gemini requests through a Supabase Edge Function so the browser never calls the model service directly.'
+        'Client interface built in React, TypeScript, Vite, and Tailwind CSS for responsive transaction review.',
+        'Organizes income, expenses, and category budgets into charts and progress summaries.',
+        'Handles sign-in and session state through Supabase Auth.',
+        'Persists transaction and budget records in Supabase-backed PostgreSQL.',
+        'Routes Google Gemini requests through a Supabase Edge Function so the browser never calls the model API directly.'
       ],
       tradeoffs: [
-        'Uses Supabase for authentication and PostgreSQL-backed storage instead of maintaining a separate backend service.',
-        'Routes Gemini requests through a Supabase Edge Function so the client does not call the model service directly.'
+        'Adopted Supabase Auth and PostgreSQL rather than maintaining a custom authentication and storage service.',
+        'Placed Gemini inference behind a Supabase Edge Function instead of calling model endpoints from client code.'
       ],
       outcomes: [
-        'Provides a dashboard for income, expenses, budgets, and spending patterns.',
-        'Adds AI-generated recommendations alongside the underlying financial views.'
+        'Unifies income, expense tracking, and budget progress into one workspace.',
+        'Presents AI-generated spending observations alongside underlying financial tables.'
       ],
       failureModes: [
-        'Model requests are isolated behind a Supabase Edge Function rather than exposing client-side model calls.'
+        'Model credentials and prompts remain isolated inside the Edge Function boundary.'
       ],
       limitations: [
-        'AI spending insights depend on the Gemini service and the transaction data available to the app.',
-        'The repository documents app features, but does not publish a measured evaluation of insight accuracy.'
+        'Insight quality depends on the Gemini service and the completeness of logged transactions.',
+        'The repository documents application features without publishing a formal evaluation of recommendation accuracy.'
       ],
       artifacts: [
-        { label: 'Source repository', url: 'https://github.com/Mariakevin/FinAI' }
+        { label: 'View repository', url: 'https://github.com/Mariakevin/FinAI' }
       ]
     },
     {
       id: 'ledgepill',
-      title: 'LedgePill — Native Desktop Island',
+      title: 'LedgePill',
+      year: '2026',
+      tagline: 'Native desktop and mobile island',
       category: 'Native systems',
       status: 'Ongoing platform beta',
       statusKey: 'beta',
-      year: '2026',
       role: 'Cross-platform native software',
       researchId: 'native-consistency',
       summary:
-        'A Dynamic Island-style interface for Linux, Windows, and Android, built with native platform technologies and no web runtime.',
+        'A compact Dynamic Island companion built natively for Linux (GTK4 and D-Bus), Windows (WPF), and Android (Kotlin) without a shared web runtime.',
       impact:
-        'Explores one shared visual language across GTK4, WPF, and Kotlin applications without Electron or embedded web views.',
+        'Shares one calm interaction language across three native toolkits without shipping Electron or embedded browser views.',
       stack: ['Linux', 'GTK4', 'D-Bus', 'WPF / .NET', 'Kotlin'],
       demoUrl: 'https://mariakevin.github.io/LedgePill/demo.html',
       repoUrl: 'https://github.com/Mariakevin/LedgePill',
       problem:
-        'A compact, animated desktop companion should respond to native media and system events while still feeling at home on each platform.',
+        'A compact desktop companion should react to media, volume, notifications, and Bluetooth events cleanly while feeling native to each operating system.',
       architecture: [
-        'Linux · GTK4 & D-Bus',
-        'Windows · WPF',
-        'Android · Kotlin',
-        'Platform-Native Events',
-        'Shared Visual Language'
+        'Linux GTK4 and D-Bus',
+        'Windows WPF companion',
+        'Android Kotlin app',
+        'Native OS event hooks',
+        'Shared visual grammar'
       ],
       stageNotes: [
-        'Flagship Linux implementation using GTK4 for rendering and D-Bus for native system event hooks.',
-        'Windows companion built natively in WPF / .NET without bundling an embedded browser runtime.',
-        'Android companion implemented in Kotlin to explore mobile notification and media integration.',
-        'Connects directly to each OS for media playback, volume, notifications, and Bluetooth state.',
-        'Maintains consistent pill geometry and transition behavior across otherwise distinct native toolkits.'
+        'Flagship Linux implementation rendering via GTK4 and subscribing to system events over D-Bus.',
+        'Windows companion built natively with WPF and .NET without bundling a web runtime.',
+        'Android companion written in Kotlin to connect directly with mobile media and notification APIs.',
+        'Listens to live playback, volume, notifications, Bluetooth, and device status signals on each OS.',
+        'Preserves consistent geometry and expansion motion across separate native UI toolkits.'
       ],
       tradeoffs: [
-        'Builds separate native applications for each platform rather than sharing a web-based runtime.',
-        'Keeps platform integrations close to their native APIs while carrying the same visual language across them.'
+        'Writes dedicated native apps per platform instead of maintaining one Electron or WebView codebase.',
+        'Prioritizes direct OS event integration over identical feature parity across platforms.'
       ],
       outcomes: [
-        'Responds to media, volume, notifications, Bluetooth, and other system activity.',
-        'Includes an interactive web demo alongside the native applications.'
+        'Responds to media controls, volume changes, notifications, and Bluetooth activity natively on Linux.',
+        'Includes an interactive browser preview alongside the native codebases.'
       ],
       failureModes: [
-        'Platform capabilities degrade per target OS rather than relying on lowest-common-denominator cross-platform wrappers.'
+        'Platform features degrade gracefully per OS rather than relying on fragile cross-platform shims.'
       ],
       limitations: [
-        'Linux is the flagship implementation; the Windows and Android companions are marked beta and are less battle-tested.',
-        'Features and system integrations differ by platform because each app uses native APIs.'
+        'Linux is the primary mature target; Windows and Android implementations are marked beta and less tested.',
+        'Available system integrations vary across operating systems because each relies on platform APIs.'
       ],
       artifacts: [
-        { label: 'Interactive demo', url: 'https://mariakevin.github.io/LedgePill/demo.html' },
-        { label: 'Source repository', url: 'https://github.com/Mariakevin/LedgePill' }
+        { label: 'Open interactive demo', url: 'https://mariakevin.github.io/LedgePill/demo.html' },
+        { label: 'View repository', url: 'https://github.com/Mariakevin/LedgePill' }
       ]
     }
   ],
@@ -313,85 +325,68 @@ window.PORTFOLIO_DATA = {
   research: [
     {
       id: 'fundus-transfer',
-      index: 'A',
+      index: 'Question A',
       project: 'FundusNet',
       projectId: 'fundusnet',
       status: 'Open inquiry',
-      question: 'Does ensemble uncertainty remain useful across different cameras, populations, and clinical settings?',
-      method: 'Compare documented model behavior against independent, unseen retinal-image distributions.',
-      evidence: 'Public training data and Grad-CAM are documented; external clinical validation is not.',
+      question: 'Does ensemble uncertainty remain calibrated across unseen cameras, populations, and clinical settings?',
+      method: 'Evaluate documented ensemble uncertainty outputs against independent, external retinal-image distributions.',
+      evidence: 'Public dataset training and Grad-CAM heatmaps are documented; external clinical validation is not yet performed.',
       contextNote:
-        'FundusNet intentionally refers high-uncertainty scans for specialist review instead of emitting a forced class, making cross-camera calibration the primary gap before clinical relevance.',
+        'FundusNet refers uncertain predictions for specialist review instead of emitting forced labels, making out-of-distribution calibration the key gap before clinical use.',
       link: 'https://github.com/Mariakevin/FundusNet'
     },
     {
       id: 'evidence-extraction',
-      index: 'B',
+      index: 'Question B',
       project: 'JobMatch AI',
       projectId: 'jobmatch',
       status: 'Open inquiry',
-      question: 'How can incomplete resume and listing evidence stay visible without degrading the decision?',
-      method: 'Separate deterministic eligibility, skill evidence, and practical constraints instead of merging them into one score.',
-      evidence: 'Design research and implementation details are available in the repository.',
+      question: 'How can incomplete resume and listing evidence remain visible without degrading usability?',
+      method: 'Separate hard eligibility rules, skill evidence, and practical constraints instead of merging them into a single match score.',
+      evidence: 'Design research notes and implementation architecture are documented in the repository.',
       contextNote:
-        'Because extraction can miss nuances in unstructured resumes or job posts, JobMatch AI surfaces unverified fields as editable confirmations and guards inputs against prompt injection.',
+        'Automated text extraction can miss nuance in unstructured job descriptions, so unknown fields stay visible as editable confirmations while treating all input text as untrusted.',
       link: 'https://github.com/Mariakevin/JobMatchAI/blob/main/docs/design-research.md'
     },
     {
       id: 'native-consistency',
-      index: 'C',
+      index: 'Question C',
       project: 'LedgePill',
       projectId: 'ledgepill',
       status: 'Open inquiry',
-      question: 'What is the minimum shared design language across otherwise distinct native platforms?',
-      method: 'Compare one island interaction across GTK4, WPF, and Kotlin without a shared web runtime.',
-      evidence: 'The Linux implementation is the most developed; platform integrations remain uneven.',
+      question: 'What is the smallest shared visual grammar across genuinely separate native toolkits?',
+      method: 'Implement one compact island interaction independently across GTK4, WPF, and Kotlin with zero shared web runtime.',
+      evidence: 'The Linux GTK4 client is the flagship build; Windows and Android companions remain in beta.',
       contextNote:
-        'Sharing zero runtime code across GTK4, WPF, and Kotlin keeps footprint minimal and OS integration native, at the cost of feature parity between Linux and beta Windows/Android targets.',
+        'Avoiding a shared web runtime keeps memory overhead low and system hooks native, at the cost of maintaining separate platform implementations.',
       link: 'https://github.com/Mariakevin/LedgePill'
     }
   ],
 
-  experience: [
+  principles: [
     {
-      role: 'Co-Founder',
-      organization: 'Aestric',
-      period: 'Jul 2026 – Present',
-      bullets: [
-        'Building Aestric alongside my MCA studies and independent engineering projects.'
+      title: 'Make uncertainty visible',
+      context: 'Applied in FundusNet',
+      points: [
+        'Pair screening predictions with uncertainty signals and Grad-CAM heatmaps that reviewers can inspect.',
+        'State clearly that research prototypes are not clinically validated medical devices.'
       ]
     },
     {
-      role: 'Bachelor of Computer Applications (BCA)',
-      organization: 'Apollo Arts & Science College',
-      period: '2022 – 2025',
-      bullets: ['Undergraduate degree completed before beginning the MCA program.']
-    },
-    {
-      role: 'Make uncertainty visible',
-      organization: 'FundusNet · Applied ML',
-      period: 'Principle 01',
-      bullets: [
-        'Pair screening predictions with uncertainty signals and Grad-CAM heatmaps that can be inspected.',
-        'Treat the project honestly as a research prototype, not a validated medical device.'
+      title: 'Keep decisions explainable',
+      context: 'Applied in JobMatch AI',
+      points: [
+        'Separate hard eligibility rules from preference scoring and quote warning sources verbatim.',
+        'Show missing or conflicting facts openly instead of burying them inside an opaque percentage.'
       ]
     },
     {
-      role: 'Make decisions explainable',
-      organization: 'JobMatch AI · Student tool',
-      period: 'Principle 02',
-      bullets: [
-        'Keep deterministic eligibility rules, skill evidence, practical constraints, and listing warnings visible to the user.',
-        'Treat unknown information as unknown instead of hiding it inside a single score.'
-      ]
-    },
-    {
-      role: 'Respect platform boundaries',
-      organization: 'LedgePill & FinAI · Systems & Product',
-      period: 'Principle 03',
-      bullets: [
-        'Keep system integrations native (GTK4/D-Bus, WPF, Kotlin) when latency and OS integration matter.',
-        'Isolate model API access behind edge boundaries (Supabase Edge Functions) rather than exposing direct client calls.'
+      title: 'Respect system boundaries',
+      context: 'Applied in LedgePill and FinAI',
+      points: [
+        'Use native toolkits such as GTK4, WPF, and Kotlin when tight OS event integration matters.',
+        'Isolate external model calls behind server-side edge functions rather than exposing keys or prompts in client code.'
       ]
     }
   ]

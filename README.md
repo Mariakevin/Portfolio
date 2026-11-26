@@ -14,6 +14,10 @@ python3 -m http.server 4321   # then visit http://localhost:4321
 
 Works over `file://`, static hosts, and GitHub Pages.
 
+## Deployment
+
+The live site is [mariakevin.github.io/Portfolio](https://mariakevin.github.io/Portfolio/), published from the `main` branch. GitHub Pages serves this repository as a project site under `/Portfolio/`; the canonical URL and Open Graph URL in `index.html` include that path. The site has no build step. After pushing to `main`, allow GitHub Pages a short time to publish, then check the live home page and résumé link.
+
 ---
 
 ## Content structure
@@ -32,8 +36,8 @@ All portfolio content and structured relationships live in **`js/data.js`** (`wi
 
 ## Design system notes
 
-- **Palette:** Cool Chalk (`#F8F9F7`) and Forest Slate (`#122120`) with Precision Teal (`#0B6E68`) in light mode, switching cleanly to Deep Pine (`#0D1717`) and Sea-Glass Teal (`#4CC2B7`) in dark mode.
-- **Typography:** `Newsreader` (optical serif for display headings and long-form editorial prose) paired with `IBM Plex Sans` (UI controls, filters, tables, and structured labels), plus `IBM Plex Mono` strictly inside the interactive command-line dialog.
+- **Palette:** Film Paper (`#F4F5FA`) and Indigo Ink (`#14172E`) with Cobalt (`#2F43D8`) in light mode, switching to Night Film (`#0E1024`) and Periwinkle (`#9AA8FF`) in dark mode. A Grad-CAM-style heat ramp (red, amber, green) appears only in the hero map, where it follows the pointer or the selected project.
+- **Typography:** `Bricolage Grotesque` (display headings and brand) paired with `IBM Plex Sans` (body, controls, tables), plus `IBM Plex Mono` strictly inside the interactive command-line dialog.
 - **Interactive capabilities:** Hero Architecture Map with a readable tap-card layout on phones, project workbench, `<dialog>` case studies with Previous/Next navigation, tool-to-project evidence matrix, expandable research notes, `Ctrl/Cmd+K` command line, and a downloadable public résumé plus printable CV dossier.
 - **Public résumé:** `assets/maria-kevin-resume.pdf` removes the private phone number, residential locality, and grade metrics while keeping a general Chennai location and public profile links.
 
@@ -42,9 +46,9 @@ All portfolio content and structured relationships live in **`js/data.js`** (`wi
 ## Files
 
 ```text
-index.html            Semantic markup, FOUC-free theme bootstrap, JSON-LD metadata
-css/styles.css        Design tokens, Chalk/Pine themes, responsive layouts, print CV rules
+index.html            Semantic markup, theme bootstrap, canonical/social metadata, JSON-LD
+css/styles.css        Film Paper/Night Film themes, responsive layouts, print CV rules
 js/data.js            Profile, capability mappings, projects, and research notes
-js/main.js            Hydration, Architecture Map, Evidence Matrix, Case Studies, CLI, Contact
+js/main.js            Hydration, interactive heat map, Evidence Matrix, Case Studies, CLI, Contact
 assets/               Public résumé PDF
 ```

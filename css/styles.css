@@ -1,6 +1,6 @@
 /* ==========================================================================
    MARIA KEVIN — PORTFOLIO
-   Cool Chalk & Forest-Slate design system · Newsreader + IBM Plex Sans
+   Ink & Heat design system · Bricolage Grotesque + IBM Plex Sans
    No frameworks. No build step.
    ========================================================================== */
 
@@ -8,14 +8,15 @@
    01. Tokens
    -------------------------------------------------------------------------- */
 :root {
-  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-display: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --display-weight: 600;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --container-max: 1180px;
   --header-height: 68px;
   --radius-sm: 6px;
-  --radius-md: 10px;
+  --radius-md: 14px;
   --radius-pill: 999px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -23,50 +24,50 @@
   --base: 240ms var(--ease);
 }
 
-/* Light Theme — Cool Chalk & Forest Slate */
+/* Light Theme — Film Paper & Indigo Ink */
 [data-theme="light"] {
-  --bg: #f8f9f7;
+  --bg: #f4f5fa;
   --surface: #ffffff;
-  --surface-well: #edf1ef;
-  --text: #122120;
-  --text-2: #415452;
-  --text-3: #5e726f;
-  --border: rgba(18, 33, 32, 0.13);
-  --border-strong: rgba(18, 33, 32, 0.28);
-  --accent: #0b6e68;
-  --accent-hover: #085651;
-  --accent-soft: rgba(11, 110, 104, 0.10);
-  --on-accent: #f8f9f7;
-  --status-research: #1d5d7a;
-  --status-active: #0b6e68;
+  --surface-well: #e9ebf4;
+  --text: #14172e;
+  --text-2: #444a6b;
+  --text-3: #5a6184;
+  --border: rgba(20, 23, 46, 0.13);
+  --border-strong: rgba(20, 23, 46, 0.28);
+  --accent: #2f43d8;
+  --accent-hover: #2233b0;
+  --accent-soft: rgba(47, 67, 216, 0.09);
+  --on-accent: #f4f5fa;
+  --status-research: #7a3fb0;
+  --status-active: #0f766e;
   --status-done: #2e6b46;
-  --status-beta: #8d5b14;
-  --header-bg: rgba(248, 249, 247, 0.90);
-  --backdrop: rgba(18, 33, 32, 0.50);
-  --shadow-subtle: 0 12px 32px rgba(18, 33, 32, 0.06);
+  --status-beta: #9a5b0b;
+  --header-bg: rgba(244, 245, 250, 0.9);
+  --backdrop: rgba(20, 23, 46, 0.5);
+  --shadow-subtle: 0 1px 0 rgba(20, 23, 46, 0.05), 0 24px 40px -28px rgba(34, 51, 176, 0.35);
 }
 
-/* Dark Theme — Deep Pine Slate */
+/* Dark Theme — Night Film */
 [data-theme="dark"] {
-  --bg: #0d1717;
-  --surface: #132120;
-  --surface-well: #1a2c2b;
-  --text: #ecf0ee;
-  --text-2: #a9bdb9;
-  --text-3: #839995;
-  --border: rgba(236, 240, 238, 0.13);
-  --border-strong: rgba(236, 240, 238, 0.28);
-  --accent: #4cc2b7;
-  --accent-hover: #6dd4ca;
-  --accent-soft: rgba(76, 194, 183, 0.14);
-  --on-accent: #0d1717;
-  --status-research: #78b9d9;
-  --status-active: #4cc2b7;
+  --bg: #0e1024;
+  --surface: #161a38;
+  --surface-well: #1d2247;
+  --text: #eceefa;
+  --text-2: #aab0d6;
+  --text-3: #8c93c0;
+  --border: rgba(236, 238, 250, 0.13);
+  --border-strong: rgba(236, 238, 250, 0.28);
+  --accent: #9aa8ff;
+  --accent-hover: #b4beff;
+  --accent-soft: rgba(154, 168, 255, 0.14);
+  --on-accent: #0e1024;
+  --status-research: #c3a0f0;
+  --status-active: #5fd0bf;
   --status-done: #76c893;
   --status-beta: #dfb065;
-  --header-bg: rgba(13, 23, 23, 0.90);
-  --backdrop: rgba(6, 12, 12, 0.72);
-  --shadow-subtle: 0 14px 36px rgba(0, 0, 0, 0.28);
+  --header-bg: rgba(14, 16, 36, 0.9);
+  --backdrop: rgba(6, 7, 20, 0.72);
+  --shadow-subtle: 0 1px 0 rgba(236, 238, 250, 0.04), 0 28px 44px -28px rgba(0, 0, 0, 0.6);
 }
 
 /* --------------------------------------------------------------------------
@@ -215,9 +216,9 @@ img, svg {
 }
 
 .brand-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 1.24rem;
-  font-weight: 500;
+  font-weight: var(--display-weight);
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
@@ -342,7 +343,7 @@ img, svg {
   display: block;
   padding: 13px 4px;
   border-bottom: 1px solid var(--border);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 1.25rem;
   color: var(--text);
 }
@@ -486,11 +487,11 @@ img, svg {
 .hero-title {
   margin: 0 0 22px;
   max-width: 18ch;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(2.45rem, 4.9vw, 4.1rem);
   line-height: 1.06;
   letter-spacing: -0.028em;
-  font-weight: 500;
+  font-weight: var(--display-weight);
   font-optical-sizing: auto;
   text-wrap: balance;
 }
@@ -538,9 +539,36 @@ img, svg {
   color: var(--text-3);
 }
 
+/* The heat layer echoes Grad-CAM: it follows the pointer or the selected
+   node, showing where attention is, the same idea the projects use. */
+@property --mx { syntax: "<length-percentage>"; inherits: true; initial-value: 62%; }
+@property --my { syntax: "<length-percentage>"; inherits: true; initial-value: 38%; }
+
 .plate-canvas {
+  position: relative;
+  isolation: isolate;
   padding: 12px 10px 6px;
   background-color: var(--surface-well);
+  transition: --mx 420ms var(--ease), --my 420ms var(--ease);
+}
+
+.plate-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 150px at var(--mx) var(--my),
+    rgba(235, 64, 52, 0.50) 0,
+    rgba(255, 190, 0, 0.38) 34%,
+    rgba(60, 200, 150, 0.22) 60%,
+    rgba(47, 67, 216, 0) 100%
+  );
+}
+
+[data-theme="dark"] .plate-canvas::before {
+  opacity: 0.8;
 }
 
 .plate-canvas svg {
@@ -563,6 +591,7 @@ img, svg {
 
 .plate-node rect {
   fill: var(--surface);
+  fill-opacity: 0.82;
   stroke: var(--border-strong);
   stroke-width: 1.2;
   transition: stroke var(--fast), fill var(--fast);
@@ -571,7 +600,7 @@ img, svg {
 .plate-node:hover rect,
 .plate-node:focus-visible rect,
 .plate-node.is-selected rect {
-  fill: var(--surface);
+  fill-opacity: 0.94;
   stroke: var(--accent);
   stroke-width: 2;
 }
@@ -589,9 +618,9 @@ img, svg {
 
 .node-label {
   fill: var(--text);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .node-sub {
@@ -728,11 +757,11 @@ img, svg {
 
 .section-title {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.9rem, 3.6vw, 2.75rem);
   line-height: 1.1;
   letter-spacing: -0.025em;
-  font-weight: 500;
+  font-weight: var(--display-weight);
   font-optical-sizing: auto;
   text-wrap: balance;
 }
@@ -865,9 +894,9 @@ img, svg {
 }
 
 .row-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.25rem, 1.9vw, 1.52rem);
-  font-weight: 500;
+  font-weight: var(--display-weight);
   letter-spacing: -0.015em;
 }
 
@@ -943,10 +972,10 @@ img, svg {
 
 .preview-title {
   margin: 0 0 8px;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.45rem, 2.2vw, 1.85rem);
   line-height: 1.15;
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .preview-summary {
@@ -1024,18 +1053,17 @@ img, svg {
 
 .obs-title {
   margin: 0 0 14px;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 2vw, 1.65rem);
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .obs-body p {
   max-width: 60ch;
   margin-bottom: 14px;
-  font-family: var(--font-serif);
-  font-size: 1.06rem;
-  line-height: 1.7;
+  font-size: 1.03rem;
+  line-height: 1.68;
   color: var(--text-2);
 }
 
@@ -1333,10 +1361,10 @@ img, svg {
 
 .research-question {
   margin: 0 0 18px;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.2rem, 1.65vw, 1.4rem);
   line-height: 1.25;
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .research-evidence {
@@ -1443,10 +1471,10 @@ img, svg {
 
 .edu-degree {
   margin: 0 0 6px;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 1.4rem;
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .edu-school {
@@ -1483,9 +1511,9 @@ img, svg {
 }
 
 .experience-role {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.15rem, 1.7vw, 1.35rem);
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .experience-org {
@@ -1533,9 +1561,9 @@ img, svg {
 }
 
 .principle-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.2rem, 1.8vw, 1.45rem);
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .principle-context {
@@ -1580,10 +1608,10 @@ img, svg {
   max-width: 100%;
   padding-bottom: 6px;
   border-bottom: 2px solid var(--accent);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.4rem, 2.6vw, 2.05rem);
   line-height: 1.15;
-  font-weight: 500;
+  font-weight: var(--display-weight);
   word-break: break-word;
   transition: color var(--fast);
 }
@@ -1826,10 +1854,10 @@ img, svg {
 
 .modal-title {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.38rem, 2.8vw, 1.85rem);
   line-height: 1.15;
-  font-weight: 500;
+  font-weight: var(--display-weight);
 }
 
 .modal-body {
@@ -1986,9 +2014,9 @@ img, svg {
   flex-direction: column;
   max-height: 82vh;
   overflow: hidden;
-  background: #0d1717;
-  color: #ecf0ee;
-  border: 1px solid rgba(236, 240, 238, 0.22);
+  background: #0e1024;
+  color: #eceefa;
+  border: 1px solid rgba(236, 238, 250, 0.22);
   border-radius: var(--radius-md);
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
 }
@@ -1999,28 +2027,28 @@ img, svg {
   justify-content: space-between;
   gap: 12px;
   padding: 11px 16px;
-  background: #132120;
-  border-bottom: 1px solid rgba(236, 240, 238, 0.12);
+  background: #171b3a;
+  border-bottom: 1px solid rgba(236, 238, 250, 0.12);
 }
 
 .terminal-title {
   font-size: 0.8rem;
-  color: #a9bdb9;
+  color: #aab0d6;
 }
 
 .terminal-close {
   padding: 3px 9px;
-  border: 1px solid rgba(236, 240, 238, 0.24);
+  border: 1px solid rgba(236, 238, 250, 0.24);
   border-radius: var(--radius-sm);
   background: transparent;
-  color: #ecf0ee;
+  color: #eceefa;
   font-size: 0.75rem;
   cursor: pointer;
 }
 
 .terminal-close:hover {
-  border-color: #4cc2b7;
-  color: #4cc2b7;
+  border-color: #9aa8ff;
+  color: #9aa8ff;
 }
 
 .terminal-body {
@@ -2041,8 +2069,8 @@ img, svg {
   word-break: break-word;
 }
 
-.term-cmd { color: #6dd4ca; }
-.term-muted { color: #8fa6a2; }
+.term-cmd { color: #b4beff; }
+.term-muted { color: #9298c4; }
 .term-success { color: #8ad8a8; }
 .term-error { color: #f0a868; }
 
@@ -2050,7 +2078,7 @@ img, svg {
   padding: 0;
   border: 0;
   background: none;
-  color: #4cc2b7;
+  color: #9aa8ff;
   font: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -2062,13 +2090,13 @@ img, svg {
   align-items: center;
   gap: 10px;
   padding: 12px 18px;
-  background: #101c1c;
-  border-top: 1px solid rgba(236, 240, 238, 0.12);
+  background: #12162f;
+  border-top: 1px solid rgba(236, 238, 250, 0.12);
 }
 
 .terminal-prompt {
   flex: 0 0 auto;
-  color: #4cc2b7;
+  color: #9aa8ff;
   font-size: 0.8rem;
 }
 
@@ -2076,7 +2104,7 @@ img, svg {
   width: 100%;
   border: 0;
   background: transparent;
-  color: #ecf0ee;
+  color: #eceefa;
   font-size: 0.85rem;
 }
 
@@ -2089,21 +2117,21 @@ img, svg {
   flex-wrap: wrap;
   gap: 6px;
   padding: 10px 18px 14px;
-  background: #101c1c;
-  border-top: 1px solid rgba(236, 240, 238, 0.08);
+  background: #12162f;
+  border-top: 1px solid rgba(236, 238, 250, 0.08);
 }
 
 .terminal-quickbar .cli-chip {
   padding: 4px 9px;
-  border-color: rgba(236, 240, 238, 0.22);
+  border-color: rgba(236, 238, 250, 0.22);
   background: transparent;
-  color: #a9bdb9;
+  color: #aab0d6;
   font-size: 0.76rem;
 }
 
 .terminal-quickbar .cli-chip:hover {
-  border-color: #4cc2b7;
-  color: #4cc2b7;
+  border-color: #9aa8ff;
+  color: #9aa8ff;
 }
 
 /* --------------------------------------------------------------------------
@@ -2288,7 +2316,7 @@ img, svg {
 
   .mobile-node-title {
     overflow-wrap: anywhere;
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: 1.04rem;
     line-height: 1.15;
   }

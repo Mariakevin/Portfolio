@@ -82,10 +82,11 @@
       localStorage.setItem('portfolio-theme', normalized);
     } catch (e) {}
 
-    var metaTheme = $('meta[name="theme-color"]');
-    if (metaTheme) {
-      metaTheme.setAttribute('content', normalized === 'dark' ? '#0d1717' : '#f8f9f7');
-    }
+    // The user's explicit choice overrides the media-query variants in the markup.
+    $all('meta[name="theme-color"]').forEach(function (meta) {
+      meta.removeAttribute('media');
+      meta.setAttribute('content', normalized === 'dark' ? '#0e1024' : '#f4f5fa');
+    });
 
     var toggle = $('#theme-toggle');
     if (toggle) {
@@ -192,10 +193,8 @@
       if (p.cvUrl) {
         resumeLink.href = p.cvUrl;
         resumeLink.hidden = false;
-        resumeLink.style.display = '';
       } else {
         resumeLink.hidden = true;
-        resumeLink.style.display = 'none';
       }
     }
 
@@ -250,6 +249,32 @@
     if (!nodes.length || !readoutTag || !readoutText || !readoutOpen) return;
 
     var selectedPlateProject = null;
+    var canvas = $('.plate-canvas');
+
+    // Point the heat layer at a position inside the canvas.
+    function aimHeat(x, y) {
+      if (!canvas) return;
+      canvas.style.setProperty('--mx', x + 'px');
+      canvas.style.setProperty('--my', y + 'px');
+    }
+
+    function aimHeatAtNode(node) {
+      if (!canvas || !node) return;
+      var c = canvas.getBoundingClientRect();
+      var r = node.getBoundingClientRect();
+      aimHeat(r.left - c.left + r.width / 2, r.top - c.top + r.height / 2);
+    }
+
+    if (canvas) {
+      canvas.addEventListener('pointermove', function (event) {
+        if (event.pointerType === 'touch') return;
+        var c = canvas.getBoundingClientRect();
+        aimHeat(event.clientX - c.left, event.clientY - c.top);
+      });
+      canvas.addEventListener('pointerleave', function () {
+        aimHeatAtNode($('.plate-node.is-selected'));
+      });
+    }
 
     function selectPlateNode(projectId) {
       var proj = data.projects.find(function (p) {
@@ -263,6 +288,8 @@
         n.classList.toggle('is-selected', isSelected);
         if (n.matches('.plate-mobile-node')) n.setAttribute('aria-pressed', String(isSelected));
       });
+
+      aimHeatAtNode($('.plate-node[data-plate-project="' + projectId + '"]'));
 
       readoutTag.textContent = proj.title + ' (' + proj.status + ')';
       readoutText.textContent = proj.problem;

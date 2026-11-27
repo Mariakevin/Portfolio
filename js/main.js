@@ -110,7 +110,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     Mobile Navigation & Print CV
+     Mobile Navigation
      ------------------------------------------------------------------------ */
   function initMobileNav() {
     var toggle = $('#mobile-menu-toggle');
@@ -242,7 +242,10 @@
     if (!viewport || !canvas3d) return;
 
     var ctx = canvas3d.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      plateCanvas.classList.remove('is-3d');
+      return;
+    }
 
     var reduceMotion = window.matchMedia
       ? window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -1594,7 +1597,9 @@
         noteBtn.setAttribute('aria-expanded', 'false');
 
         var notePanel = el('div', 'research-note-panel', item.contextNote);
+        notePanel.id = 'research-note-' + item.id;
         notePanel.hidden = true;
+        noteBtn.setAttribute('aria-controls', notePanel.id);
 
         noteBtn.addEventListener('click', function () {
           var open = notePanel.hidden;
@@ -2173,51 +2178,36 @@
       })
       .filter(Boolean);
 
-    if ('IntersectionObserver' in window) {
-      var navObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              var id = '#' + entry.target.id;
-              navLinks.forEach(function (link) {
-                var match = link.getAttribute('href') === id;
-                link.classList.toggle('is-active', match);
-                if (match) {
-                  link.setAttribute('aria-current', 'page');
-                } else {
-                  link.removeAttribute('aria-current');
-                }
-              });
-            }
-          });
-        },
-        { rootMargin: '-32% 0px -56% 0px' }
-      );
+    if (!navLinks.length || !sections.length) return;
 
-      sections.forEach(function (sec) {
-        navObserver.observe(sec);
-      });
-    }
-  }
-
-  /* ------------------------------------------------------------------------
-     Scroll Progress & Reveal Motion
-     ------------------------------------------------------------------------ */
-  function initScrollProgress() {
-    var bar = $('#scroll-progress-bar');
-    if (!bar) return;
-
-    var header = $('#site-header');
     var ticking = false;
 
     function update() {
+      var marker = window.innerHeight * 0.38;
+      var active = sections[0];
+
+      sections.forEach(function (sec) {
+        if (sec.getBoundingClientRect().top <= marker) {
+          active = sec;
+        }
+      });
+
       var doc = document.documentElement;
-      var max = doc.scrollHeight - window.innerHeight;
-      var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-      bar.style.width = (progress * 100).toFixed(2) + '%';
-      if (header) {
-        header.classList.toggle('is-scrolled', window.scrollY > 8);
+      if (window.scrollY + window.innerHeight >= doc.scrollHeight - 2) {
+        active = sections[sections.length - 1];
       }
+
+      var id = '#' + active.id;
+      navLinks.forEach(function (link) {
+        var match = link.getAttribute('href') === id;
+        link.classList.toggle('is-active', match);
+        if (match) {
+          link.setAttribute('aria-current', 'location');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+
       ticking = false;
     }
 
@@ -2230,6 +2220,65 @@
     window.addEventListener('scroll', requestUpdate, { passive: true });
     window.addEventListener('resize', requestUpdate);
     update();
+  }
+
+  /* ------------------------------------------------------------------------
+     Scroll Progress & Reveal Motion
+     ------------------------------------------------------------------------ */
+  function initScrollProgress() {
+    var bar = $('#scroll-progress-bar');
+    if (!bar) return;
+
+    var header = $('#site-header');
+    var ticking = false;
+
+    function setScrolled(isScrolled) {
+      if (!header) return;
+      header.classList.toggle('is-scrolled', isScrolled);
+      if (!isScrolled) {
+        var drawer = $('#mobile-nav');
+        var toggle = $('#mobile-menu-toggle');
+        if (drawer && !drawer.hidden) {
+          drawer.hidden = true;
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    }
+
+    function update() {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - window.innerHeight;
+      var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      bar.style.width = (progress * 100).toFixed(2) + '%';
+      setScrolled(window.scrollY > 24);
+      ticking = false;
+    }
+
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    update();
+
+    // A zero-width sentinel at the top keeps the header state correct even
+    // when a scroll is triggered programmatically (anchor jumps, reloads).
+    var sentinel = document.createElement('div');
+    sentinel.className = 'scroll-sentinel';
+    sentinel.setAttribute('aria-hidden', 'true');
+    document.body.insertBefore(sentinel, document.body.firstChild);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        function (entries) {
+          setScrolled(!entries[0].isIntersecting);
+        },
+        { threshold: 0 }
+      ).observe(sentinel);
+    }
   }
 
   function initReveal() {

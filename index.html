@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +10,25 @@
   <meta property="og:url" content="https://mariakevin.github.io/Portfolio/">
   <meta property="og:title" content="Maria Kevin, Software developer">
   <meta property="og:description" content="Applied machine learning, explainable student tools, and native systems engineering.">
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/92206783?v=4">
-  <meta property="og:image:alt" content="Maria Kevin's GitHub profile portrait">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://mariakevin.github.io/Portfolio/assets/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Index / Dossier portfolio card for Maria Kevin, software developer: applied machine learning, explainable products, and native systems.">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f3eee4" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0b09" media="(prefers-color-scheme: dark)">
   <meta name="twitter:title" content="Maria Kevin, Software developer">
+  <meta name="twitter:description" content="Applied machine learning, explainable student tools, and native systems engineering.">
+  <meta name="twitter:image" content="https://mariakevin.github.io/Portfolio/assets/og-card.png">
+  <meta name="twitter:image:alt" content="Index / Dossier portfolio card for Maria Kevin, software developer.">
   <title>Maria Kevin, Software developer</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b0300c'/%3E%3Cpath d='M8 23V9l8 8 8-8v14' fill='none' stroke='%23fcf8ef' stroke-width='2.6' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <script>
     (function () {
+      document.documentElement.classList.remove('no-js');
       try {
         var saved = localStorage.getItem('portfolio-theme');
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -30,9 +38,6 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <script defer src="js/data.js"></script>
   <script defer src="js/main.js"></script>
@@ -150,18 +155,18 @@
                 </svg>
               </a>
               <a href="#about" class="btn btn-secondary">Explore capabilities</a>
-              <a class="btn btn-ghost" id="resume-download-link" href="#" hidden>Download résumé PDF</a>
+              <a class="btn btn-ghost" id="resume-download-link" href="assets/maria-kevin-resume.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf">Download résumé PDF</a>
             </div>
           </div>
 
           <!-- Primary Visual Centerpiece: Interactive Architecture Map -->
-          <aside class="hero-plate" aria-label="Interactive system map connecting machine learning, product workflows, and native systems to four projects" data-reveal>
+          <div class="hero-plate" role="region" aria-label="Interactive system map connecting machine learning, product workflows, and native systems to four projects" data-reveal>
             <div class="plate-head">
               <span class="plate-title"><span class="plate-mark" aria-hidden="true"></span>Architecture map</span>
               <span class="plate-hint"><span class="hint-wide">Drag or select</span><span class="hint-narrow">Select a build</span></span>
             </div>
 
-            <div class="plate-canvas">
+            <div class="plate-canvas is-3d">
               <div class="plate-viewport" id="plate-viewport">
                 <canvas class="plate-3d" id="plate-canvas-3d" aria-hidden="true"></canvas>
                 <div class="plate-node-layer">
@@ -199,7 +204,7 @@
                   </div>
                 </div>
               </div>
-              <div class="plate-mobile-projects" aria-label="Choose a project to inspect">
+              <div class="plate-mobile-projects" role="group" aria-label="Choose a project to inspect">
                 <button type="button" class="plate-mobile-node" data-plate-project="fundusnet">
                   <span class="mobile-node-kind">Applied ML</span>
                   <span class="mobile-node-title">FundusNet</span>
@@ -232,11 +237,11 @@
                 Select a node to review its core problem or open the full case study.
               </p>
             </div>
-          </aside>
+          </div>
         </div>
 
         <!-- Quick 30-second orientation strip -->
-        <div class="hero-summary-row" aria-label="Summary details" data-reveal>
+        <div class="hero-summary-row" role="group" aria-label="Summary details" data-reveal>
           <div class="summary-item">
             <span class="summary-label">Education</span>
             <p class="summary-value" id="meta-focus">MCA student at SRM Valliammai Engineering College</p>
@@ -289,7 +294,7 @@
             <!-- Populated from js/data.js -->
           </div>
           <div class="work-toolbar-meta">
-            <div class="status-legend" id="project-status-legend" aria-label="Project status legend">
+            <div class="status-legend" id="project-status-legend" role="group" aria-label="Project status legend">
               <!-- Populated from js/data.js -->
             </div>
             <span class="work-count mono" id="work-count">4 projects</span>
@@ -308,7 +313,7 @@
             </noscript>
           </div>
 
-          <aside class="work-preview" id="work-preview" aria-label="Selected project details">
+          <div class="work-preview" id="work-preview" role="region" aria-label="Selected project details">
             <div class="preview-rule" aria-hidden="true"></div>
             <div class="preview-inner" id="preview-inner">
               <div class="preview-head">
@@ -333,7 +338,7 @@
                 <a class="btn btn-secondary btn-sm" id="preview-repo" href="https://github.com/Mariakevin/FundusNet" target="_blank" rel="noopener noreferrer">View source</a>
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </div>
     </section>
@@ -482,7 +487,10 @@
             </div>
           </div>
 
-          <form class="contact-form" id="contact-form" novalidate>
+          <form class="contact-form" id="contact-form" action="mailto:mariakevin0504@gmail.com" method="post" enctype="text/plain" novalidate>
+            <noscript>
+              <p class="form-note">JavaScript is off, so the form will open a mail draft instead of validating inline. You can also email <a href="mailto:mariakevin0504@gmail.com">mariakevin0504@gmail.com</a> directly.</p>
+            </noscript>
             <div class="form-row">
               <div class="form-field">
                 <label for="contact-name">Your name</label>
@@ -601,7 +609,7 @@
         >
       </form>
 
-      <div class="terminal-quickbar" id="terminal-quickbar" aria-label="Quick commands">
+      <div class="terminal-quickbar" id="terminal-quickbar" role="group" aria-label="Quick commands">
         <button type="button" class="cli-chip mono" data-term-cmd="help">help</button>
         <button type="button" class="cli-chip mono" data-term-cmd="projects">projects</button>
         <button type="button" class="cli-chip mono" data-term-cmd="research">research</button>

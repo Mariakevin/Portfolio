@@ -39,7 +39,7 @@ All portfolio content and structured relationships live in **`js/data.js`** (`wi
 **Index / Dossier** — a technical portfolio presented like a printed engineering report crossed with a studio lookbook. Sharp Swiss grid, hairline rules, numbered sections, oversized editorial type, and mono metadata.
 
 - **Palette:** Warm bone paper (`#F3EEE4`), off-white surface (`#FCF8EF`), sunken well (`#E8E0D2`), warm ink (`#16120D`), and a vermilion signal (`#B0300C`) in light mode. Dark mode is warm near-black (`#0C0B09`) with bone text (`#F3EFE6`) and signal orange (`#FF7A4C`). The palette takes its cues from Swiss Style red/black/grid discipline, Newspaper paper + signal red, a Warm Neutral beige ramp, and the Vermilion color family; every text pair meets WCAG AA. Status hues stay semantic but are aged toward print pigments in dark mode: dusty cobalt for research, sage for active prototypes, moss for completed builds, and ochre for beta. The research spread inverts to a warm ink panel for rhythm and focus.
-- **Typography:** `Instrument Serif` for display headlines and section titles, `Inter Tight` for body and interface copy, and `JetBrains Mono` for numbered labels, metadata, buttons, and the command line.
+- **Typography:** `Instrument Serif` for display headlines and section titles, `Inter Tight` for body and interface copy, and `JetBrains Mono` for numbered labels, metadata, buttons, and the command line. The three faces are subset to the glyphs the site uses and embedded as base64 `@font-face` rules in `css/styles.css`, so the exact typography renders over `file://` as well as HTTP with no third-party request. Metric-matched local fallbacks plus `font-display: block` keep the first paint from reflowing when the embedded faces decode.
 - **Layout language:** 1px rules and 2px radii, a floating glass header pill that materialises as you scroll, numbered section headers (`01`–`05`), an indexed project list with a sticky dossier inspector, a live evidence matrix, and an inverted research spread.
 - **Motion:** Scroll-progress indicator, a live projected 3D architecture map in the hero (canvas-drawn floor grid, orthogonal signal routes, and depth-sorted project cards; idle drift, pointer parallax, and drag-to-orbit settle to a still frame under `prefers-reduced-motion`), pointer-following Grad-CAM-style heat on the map, and `@starting-style` dialog transitions with Previous/Next `ViewTransition` stepping.
 - **Interactive capabilities:** Hero Architecture Map with a dependency-free Canvas 2D projection engine (drag to orbit on pointer devices, keyboard-selectable cards, 2x2 plate fallback without JavaScript, readable tap-card layout on phones), project workbench, `<dialog>` case studies, container-query capability evidence matrix, expandable research notes, `Ctrl/Cmd+K` command line (`cv`, `evidence` autocomplete), and a downloadable public résumé.
@@ -51,8 +51,13 @@ All portfolio content and structured relationships live in **`js/data.js`** (`wi
 
 ```text
 index.html            Semantic markup, theme bootstrap, canonical/social metadata, JSON-LD
-css/styles.css        Index/Dossier themes, responsive layouts, motion, print rules
+404.html              Static not-found page sharing the site design tokens
+css/styles.css        Embedded fonts, Index/Dossier themes, responsive layouts, motion, print rules
 js/data.js            Profile, capability mappings, projects, and research notes
 js/main.js            Hydration, projected 3D architecture map, Evidence Matrix, Case Studies, CLI, Contact
-assets/               Public résumé PDF
+robots.txt            Crawl policy and sitemap pointer
+sitemap.xml           Single-page sitemap for GitHub Pages
+assets/               Résumé PDF, Open Graph card, favicon, Apple touch icon
 ```
+
+Typography: Instrument Serif, Inter Tight, and JetBrains Mono are used under the SIL Open Font License 1.1. Only the needed glyphs are embedded in `css/styles.css`, so there are no font-file requests.

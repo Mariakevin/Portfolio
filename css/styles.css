@@ -54,8 +54,18 @@
 }
 
 @font-face {
+  font-family: "Instrument Serif Liberation Fallback";
+  src: local("Liberation Serif");
+  size-adjust: 85%;
+  ascent-override: 100%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@font-face {
   font-family: "Inter Tight Fallback";
-  src: local("Arial"), local("Helvetica Neue"), local("Helvetica");
+  src: local("Arial"), local("Arimo"), local("Liberation Sans"),
+    local("Helvetica Neue"), local("Helvetica");
   size-adjust: 97.5%;
   ascent-override: 96%;
   descent-override: 24%;
@@ -66,7 +76,9 @@
    01. Tokens
    -------------------------------------------------------------------------- */
 :root {
-  --font-display: "Instrument Serif", "Instrument Serif Fallback", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-display: "Instrument Serif", "Instrument Serif Fallback",
+    "Instrument Serif Liberation Fallback", "Iowan Old Style",
+    "Palatino Linotype", Georgia, serif;
   --font-sans: "Inter Tight", "Inter Tight Fallback", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
@@ -336,27 +348,27 @@ img, svg {
    -------------------------------------------------------------------------- */
 .site-header {
   position: fixed;
-  top: 14px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  width: min(calc(100% - clamp(20px, 4vw, 56px)), calc(var(--container-max) + 24px));
+  width: 100%;
   height: var(--header-height);
-  margin: 0 auto;
-  padding: 0 clamp(8px, 1vw, 12px);
-  border: 1px solid var(--header-edge);
-  border-radius: 999px;
-  background-color: var(--header-glass);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  box-shadow: 0 10px 30px -26px rgba(22, 18, 13, 0.45);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-14px);
-  pointer-events: none;
-  transition: background-color var(--base), border-color var(--base),
-    box-shadow var(--base), backdrop-filter var(--base),
-    opacity var(--base), transform var(--base), visibility 0s linear var(--base);
+  margin: 0;
+  padding: 0 clamp(20px, 4vw, 56px);
+  border: 1px solid transparent;
+  border-bottom-color: var(--border);
+  border-radius: 0;
+  background-color: var(--bg);
+  box-shadow: none;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: top var(--base) var(--ease), width var(--base) var(--ease),
+    padding var(--base) var(--ease), border-radius var(--base) var(--ease),
+    border-color var(--base), background-color var(--base),
+    box-shadow var(--base), backdrop-filter var(--base);
 }
 
 .site-header::before {
@@ -365,39 +377,35 @@ img, svg {
   inset: 0;
   border-radius: inherit;
   background: linear-gradient(180deg, var(--header-sheen), transparent 52%);
-  opacity: 0.9;
+  opacity: 0;
   pointer-events: none;
+  transition: opacity var(--base);
 }
 
 .site-header.is-scrolled {
-  background-color: var(--header-glass-strong);
+  top: 14px;
+  width: min(calc(100% - clamp(20px, 4vw, 56px)), calc(var(--container-max) + 24px));
+  margin: 0 auto;
+  padding: 0 clamp(8px, 1vw, 12px);
   border-color: var(--border);
+  border-radius: 999px;
+  background-color: var(--header-glass-strong);
   backdrop-filter: blur(22px) saturate(170%);
   -webkit-backdrop-filter: blur(22px) saturate(170%);
   box-shadow: var(--shadow-header);
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  pointer-events: auto;
-  transition-delay: 0s;
 }
 
-/* Without JavaScript the pill cannot detect scroll, so show it at the top. */
-.no-js .site-header {
-  position: relative;
-  top: auto;
-  left: auto;
-  right: auto;
-  margin: 16px auto 0;
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  pointer-events: auto;
+.site-header.is-scrolled::before {
+  opacity: 0.9;
 }
 
 /* Header utilities all require JavaScript; hide dead controls without it. */
 .no-js .header-actions {
   display: none;
+}
+
+.no-js .primary-nav {
+  margin-inline: auto;
 }
 
 .no-js .contact-form {
@@ -410,7 +418,6 @@ img, svg {
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .site-header,
   .site-header.is-scrolled {
     background-color: var(--surface);
   }
@@ -833,7 +840,7 @@ img, svg {
    05. Hero
    -------------------------------------------------------------------------- */
 .hero {
-  padding-top: clamp(40px, 6vw, 78px);
+  padding-top: calc(var(--header-height) + clamp(18px, 3vw, 36px));
   padding-bottom: 0;
 }
 
@@ -871,7 +878,8 @@ img, svg {
 
 .hero-title {
   margin: 0 0 26px;
-  max-width: 15ch;
+  /* em (not ch) so the fallback face cannot resize the measure before the webfont loads */
+  max-width: 6.9em;
   font-family: var(--font-display);
   font-size: clamp(3rem, 6.6vw, 5.9rem);
   font-weight: 400;
@@ -3133,7 +3141,7 @@ img, svg {
   }
 
   .hero-title {
-    max-width: 18ch;
+    max-width: 8.28em;
   }
 
   .section-header {
@@ -3191,11 +3199,17 @@ img, svg {
     --header-height: 60px;
   }
 
-  .site-header {
+  .site-header.is-scrolled {
     top: 8px;
     width: calc(100% - 20px);
     margin: 0 auto;
     padding-inline: 6px;
+  }
+
+  /* The resting header is edge-to-edge, so inset its drawer to match the pill. */
+  .site-header:not(.is-scrolled) .mobile-nav {
+    left: 8px;
+    right: 8px;
   }
 
   .brand-mark {

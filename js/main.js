@@ -85,7 +85,7 @@
     // The user's explicit choice overrides the media-query variants in the markup.
     $all('meta[name="theme-color"]').forEach(function (meta) {
       meta.removeAttribute('media');
-      meta.setAttribute('content', normalized === 'dark' ? '#0c0c0b' : '#f2efe9');
+      meta.setAttribute('content', normalized === 'dark' ? '#0c0b09' : '#f3eee4');
     });
 
     var toggle = $('#theme-toggle');
@@ -331,9 +331,9 @@
 
     function readColors() {
       var styles = window.getComputedStyle(plateCanvas);
-      colors.accent = parseColor(styles.getPropertyValue('--accent'), [181, 47, 11]);
+      colors.accent = parseColor(styles.getPropertyValue('--accent'), [176, 48, 12]);
       colors.strong = parseColor(styles.getPropertyValue('--border-strong'), [125, 119, 106]);
-      colors.ink = parseColor(styles.getPropertyValue('--text'), [20, 19, 15]);
+      colors.ink = parseColor(styles.getPropertyValue('--text'), [22, 18, 13]);
       colors.dark = document.documentElement.getAttribute('data-theme') === 'dark';
     }
 
@@ -551,7 +551,7 @@
       ctx.lineTo(right + dx, bottom + dy);
       ctx.lineTo(left + dx, bottom + dy);
       ctx.closePath();
-      ctx.fillStyle = colors.dark ? 'rgba(0,0,0,0.55)' : 'rgba(20,19,15,0.13)';
+      ctx.fillStyle = colors.dark ? 'rgba(0,0,0,0.55)' : 'rgba(22,18,13,0.13)';
       ctx.fill();
 
       ctx.beginPath();
@@ -560,7 +560,7 @@
       ctx.lineTo(right + dx, bottom + dy);
       ctx.lineTo(right + dx, top + dy);
       ctx.closePath();
-      ctx.fillStyle = colors.dark ? 'rgba(0,0,0,0.38)' : 'rgba(20,19,15,0.07)';
+      ctx.fillStyle = colors.dark ? 'rgba(0,0,0,0.38)' : 'rgba(22,18,13,0.07)';
       ctx.fill();
     }
 

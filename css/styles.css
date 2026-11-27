@@ -84,6 +84,7 @@
 
   --container-max: 1280px;
   --header-height: 66px;
+  --header-pill-top: 14px;
   --radius-sm: 2px;
 
   --ease: cubic-bezier(0.22, 0.75, 0.24, 1);
@@ -355,48 +356,58 @@ img, svg {
   width: 100%;
   height: var(--header-height);
   margin: 0;
-  padding: 0 clamp(20px, 4vw, 56px);
-  border: 1px solid transparent;
-  border-bottom-color: var(--border);
-  border-radius: 0;
-  background-color: var(--bg);
+  padding: 0;
+  border: 0;
+  background: transparent;
   box-shadow: none;
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  pointer-events: auto;
-  transition: top var(--base) var(--ease), width var(--base) var(--ease),
-    padding var(--base) var(--ease), border-radius var(--base) var(--ease),
-    border-color var(--base), background-color var(--base),
-    box-shadow var(--base), backdrop-filter var(--base);
 }
 
+/* Resting masthead: edge-to-edge and merged with the page. */
 .site-header::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(180deg, var(--header-sheen), transparent 52%);
-  opacity: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  opacity: 1;
   pointer-events: none;
-  transition: opacity var(--base);
+  transition: opacity 200ms var(--ease);
 }
 
-.site-header.is-scrolled {
-  top: 14px;
-  width: min(calc(100% - clamp(20px, 4vw, 56px)), calc(var(--container-max) + 24px));
-  margin: 0 auto;
-  padding: 0 clamp(8px, 1vw, 12px);
-  border-color: var(--border);
+/* Scrolled state: a floating capsule sits behind the same header content. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  top: var(--header-pill-top);
+  left: 50%;
+  width: min(calc(100% - 24px), calc(var(--container-max) + 24px));
+  height: 100%;
+  border: 1px solid var(--border);
   border-radius: 999px;
   background-color: var(--header-glass-strong);
+  background-image: linear-gradient(180deg, var(--header-sheen), transparent 52%);
+  box-shadow: var(--shadow-header);
   backdrop-filter: blur(22px) saturate(170%);
   -webkit-backdrop-filter: blur(22px) saturate(170%);
-  box-shadow: var(--shadow-header);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 6px) scale(0.985);
+  transform-origin: 50% 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ease), transform 340ms var(--ease),
+    visibility 0s linear 340ms;
 }
 
 .site-header.is-scrolled::before {
-  opacity: 0.9;
+  opacity: 0;
+}
+
+.site-header.is-scrolled::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0) scale(1);
+  transition: opacity 180ms var(--ease), transform 360ms var(--ease),
+    visibility 0s;
 }
 
 /* Header utilities all require JavaScript; hide dead controls without it. */
@@ -418,18 +429,26 @@ img, svg {
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .site-header.is-scrolled {
+  .site-header.is-scrolled::after {
     background-color: var(--surface);
   }
 }
 
 .header-inner {
   position: relative;
+  z-index: 1;
   height: 100%;
+  width: min(calc(100% - clamp(36px, 6vw, 96px)), var(--container-max));
+  margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  transition: transform 360ms var(--ease);
+}
+
+.site-header.is-scrolled .header-inner {
+  transform: translateY(var(--header-pill-top));
 }
 
 .brand {
@@ -647,13 +666,17 @@ img, svg {
 .mobile-nav {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
-  right: 0;
+  left: 12px;
+  right: 12px;
   padding: 8px 12px 14px;
   border: 1px solid var(--header-edge);
   border-radius: 22px;
   background-color: var(--surface);
   box-shadow: var(--shadow-header);
+}
+
+.site-header.is-scrolled .mobile-nav {
+  top: calc(100% + var(--header-pill-top) + 8px);
 }
 
 .mobile-nav-list {
@@ -3084,10 +3107,6 @@ img, svg {
   .brand:hover .brand-mark {
     transform: none;
   }
-
-  .site-header {
-    transition-delay: 0s !important;
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -3197,19 +3216,7 @@ img, svg {
 @media (max-width: 760px) {
   :root {
     --header-height: 60px;
-  }
-
-  .site-header.is-scrolled {
-    top: 8px;
-    width: calc(100% - 20px);
-    margin: 0 auto;
-    padding-inline: 6px;
-  }
-
-  /* The resting header is edge-to-edge, so inset its drawer to match the pill. */
-  .site-header:not(.is-scrolled) .mobile-nav {
-    left: 8px;
-    right: 8px;
+    --header-pill-top: 10px;
   }
 
   .brand-mark {
@@ -3560,13 +3567,20 @@ img, svg {
 
 /* Fallback when backdrop blur is unavailable */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .site-header { background: var(--bg); }
+  .site-header::before { background: var(--bg); }
+  .site-header.is-scrolled::after { background-color: var(--surface); }
   .modal::backdrop,
   .terminal-dialog::backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .site-header { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .site-header::before { background: var(--bg); }
+  .site-header::after {
+    background-color: var(--surface);
+    background-image: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
   .modal::backdrop,
   .terminal-dialog::backdrop { background: var(--backdrop); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }

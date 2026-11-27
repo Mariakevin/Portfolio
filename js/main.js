@@ -141,18 +141,6 @@
     });
   }
 
-  function triggerPrintDossier() {
-    window.print();
-  }
-
-  function initPrintButtons() {
-    [$('#print-dossier-btn')].forEach(function (btn) {
-      if (btn) {
-        btn.addEventListener('click', triggerPrintDossier);
-      }
-    });
-  }
-
   /* ------------------------------------------------------------------------
      Hydrate Profile & Content
      ------------------------------------------------------------------------ */
@@ -1043,15 +1031,6 @@
         }
       }
 
-      var demoBtn = $('#preview-demo');
-      if (demoBtn) {
-        if (project.demoUrl) {
-          demoBtn.href = project.demoUrl;
-          demoBtn.hidden = false;
-        } else {
-          demoBtn.hidden = true;
-        }
-      }
 
       inner.classList.remove('is-updating');
     }
@@ -1672,10 +1651,6 @@
       eduPanel.appendChild(pointsList);
 
       var eduActions = el('div', 'edu-actions');
-      var cvBtn = el('button', 'btn btn-secondary btn-sm', 'Print CV');
-      cvBtn.type = 'button';
-      cvBtn.addEventListener('click', triggerPrintDossier);
-      eduActions.appendChild(cvBtn);
 
       if (data.profile.cvUrl) {
         var pdfLink = createExternalLink('Résumé PDF', data.profile.cvUrl, 'btn btn-ghost btn-sm');
@@ -1772,7 +1747,6 @@
       'cv',
       'resume',
       'theme',
-      'print',
       'echo',
       'clear',
       'exit'
@@ -1830,7 +1804,7 @@
               '  experience         Display academic program and principles',
               '  contact            Show email and social profiles',
               '  theme [dark|light] Switch color theme',
-              '  cv / print         Open résumé PDF link or print CV',
+              '  cv / resume        Open the public résumé PDF',
               '  clear              Clear output',
               '  exit               Close window'
             ].join('\n')
@@ -1953,11 +1927,6 @@
           break;
         }
 
-        case 'print':
-          closeDialog(dialog);
-          triggerPrintDossier();
-          break;
-
         case 'cv':
         case 'resume':
           if (data.profile.cvUrl) {
@@ -1970,7 +1939,7 @@
             output.appendChild(cvLine);
             output.scrollTop = output.scrollHeight;
           } else {
-            appendLine('Use "print" to save a printed CV copy.', 'term-muted');
+            appendLine('No public résumé link is configured.', 'term-muted');
           }
           break;
 
@@ -2238,6 +2207,7 @@
     var bar = $('#scroll-progress-bar');
     if (!bar) return;
 
+    var header = $('#site-header');
     var ticking = false;
 
     function update() {
@@ -2245,6 +2215,9 @@
       var max = doc.scrollHeight - window.innerHeight;
       var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       bar.style.width = (progress * 100).toFixed(2) + '%';
+      if (header) {
+        header.classList.toggle('is-scrolled', window.scrollY > 8);
+      }
       ticking = false;
     }
 
@@ -2300,7 +2273,7 @@
   initHeroPlate();
   initTheme();
   initMobileNav();
-  initPrintButtons();
+
   initProjectModal();
   initProjectPreview();
   initTerminal();

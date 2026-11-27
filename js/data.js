@@ -122,7 +122,6 @@ window.PORTFOLIO_DATA = {
       impact:
         'Refers high-uncertainty scans for specialist review and pairs each prediction with heatmaps showing which retinal regions drove the output.',
       stack: ['Python', 'PyTorch', 'Django', 'OpenCV', 'ONNX Runtime', 'Docker'],
-      demoUrl: '',
       repoUrl: 'https://github.com/Mariakevin/FundusNet',
       problem:
         'A screening model should make its limits visible. FundusNet explores how to pair a retinal-image prediction with uncertainty signals and a visual explanation a reviewer can inspect.',
@@ -176,7 +175,6 @@ window.PORTFOLIO_DATA = {
       impact:
         'Keeps deterministic eligibility separate from fit scoring and leaves incomplete or conflicting facts visible for the student to review.',
       stack: ['Python', 'FastAPI', 'Pydantic', 'React', 'TypeScript', 'Vite'],
-      demoUrl: '',
       repoUrl: 'https://github.com/Mariakevin/JobMatchAI',
       problem:
         'Students need to understand why an internship fits or fails their requirements without mistaking an automated match score for a hiring prediction.',
@@ -230,7 +228,6 @@ window.PORTFOLIO_DATA = {
       impact:
         'Combines budget progress and spending trends in one dashboard while keeping model calls isolated behind a server-side edge function.',
       stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Gemini'],
-      demoUrl: '',
       repoUrl: 'https://github.com/Mariakevin/FinAI',
       problem:
         'Raw transaction lists rarely give a clear picture of recurring expenses or budget headroom without manual spreadsheet cleanup.',
@@ -282,7 +279,6 @@ window.PORTFOLIO_DATA = {
       impact:
         'Shares one calm interaction language across three native toolkits without shipping Electron or embedded browser views.',
       stack: ['Linux', 'GTK4', 'D-Bus', 'WPF / .NET', 'Kotlin'],
-      demoUrl: 'https://mariakevin.github.io/LedgePill/demo.html',
       repoUrl: 'https://github.com/Mariakevin/LedgePill',
       problem:
         'A compact desktop companion should react to media, volume, notifications, and Bluetooth events cleanly while feeling native to each operating system.',

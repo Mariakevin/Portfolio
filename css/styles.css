@@ -2037,6 +2037,7 @@ img, svg {
   margin: 0 0 4px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-3);

@@ -244,6 +244,552 @@
   }
 
   /* ------------------------------------------------------------------------
+     Hero Architecture Map — projected 3D scene
+     ------------------------------------------------------------------------ */
+  function initPlateScene(plateCanvas) {
+    if (!plateCanvas) return;
+
+    var viewport = $('#plate-viewport', plateCanvas);
+    var canvas3d = $('#plate-canvas-3d', plateCanvas);
+    if (!viewport || !canvas3d) return;
+
+    var ctx = canvas3d.getContext('2d');
+    if (!ctx) return;
+
+    var reduceMotion = window.matchMedia
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+
+    var baseYaw = -0.24;
+    var basePitch = 0.18;
+    var gridY = -1.18;
+    var anchors = {
+      fundusnet: { x: -0.86, y: 0.70, z: 0.18 },
+      jobmatch: { x: 0.86, y: 0.52, z: -0.28 },
+      finai: { x: 0.80, y: -0.50, z: 0.32 },
+      ledgepill: { x: -0.82, y: -0.68, z: -0.10 }
+    };
+    var order = ['fundusnet', 'jobmatch', 'finai', 'ledgepill'];
+
+    var slots = {};
+    var cards = {};
+    order.forEach(function (id) {
+      var btn = $('.plate-node[data-plate-project="' + id + '"]', plateCanvas);
+      if (!btn) return;
+      slots[id] = btn.parentNode;
+      cards[id] = btn;
+    });
+
+    if (!Object.keys(cards).length) return;
+    plateCanvas.classList.add('is-3d');
+
+    var cam = {
+      yaw: baseYaw,
+      pitch: basePitch,
+      dist: 3.6,
+      focal: 1,
+      px: 0,
+      py: 0,
+      drag: null
+    };
+
+    var width = 0;
+    var height = 0;
+    var dpr = 1;
+    var colors = {};
+    var sizes = {};
+    var visible = true;
+    var raf = null;
+
+    function clamp(value, min, max) {
+      return value < min ? min : (value > max ? max : value);
+    }
+
+    function parseColor(value, fallback) {
+      if (!value) return fallback;
+      value = value.trim();
+      var match = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+      if (match) {
+        var hex = match[1];
+        if (hex.length === 3) {
+          hex = hex.charAt(0) + hex.charAt(0) + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2);
+        }
+        var num = parseInt(hex, 16);
+        return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+      }
+      match = value.match(/rgba?\(([^)]+)\)/i);
+      if (match) {
+        var parts = match[1].split(',');
+        return [parseFloat(parts[0]) | 0, parseFloat(parts[1]) | 0, parseFloat(parts[2]) | 0];
+      }
+      return fallback;
+    }
+
+    function rgba(color, alpha) {
+      return 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + alpha + ')';
+    }
+
+    function readColors() {
+      var styles = window.getComputedStyle(plateCanvas);
+      colors.accent = parseColor(styles.getPropertyValue('--accent'), [181, 47, 11]);
+      colors.strong = parseColor(styles.getPropertyValue('--border-strong'), [125, 119, 106]);
+      colors.ink = parseColor(styles.getPropertyValue('--text'), [20, 19, 15]);
+      colors.dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    }
+
+    function reduceMotionOn() {
+      return !!(reduceMotion && reduceMotion.matches);
+    }
+
+    function measure() {
+      order.forEach(function (id) {
+        var btn = cards[id];
+        if (!btn) return;
+        sizes[id] = { w: btn.offsetWidth, h: btn.offsetHeight };
+      });
+    }
+
+    function project(point) {
+      var cy = Math.cos(cam.yaw);
+      var sy = Math.sin(cam.yaw);
+      var cp = Math.cos(cam.pitch);
+      var sp = Math.sin(cam.pitch);
+      var x1 = point.x * cy + point.z * sy;
+      var z1 = -point.x * sy + point.z * cy;
+      var y1 = point.y * cp - z1 * sp;
+      var z2 = point.y * sp + z1 * cp;
+      var zc = z2 + cam.dist;
+      return {
+        x: width / 2 + (x1 * cam.focal) / zc,
+        y: height / 2 - (y1 * cam.focal) / zc,
+        z: zc
+      };
+    }
+
+    function line(a, b, color, alpha, weight, dash) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = rgba(color, alpha);
+      ctx.lineWidth = weight;
+      ctx.setLineDash(dash || []);
+      ctx.stroke();
+    }
+
+    function dot(a, radius, color, alpha) {
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = rgba(color, alpha);
+      ctx.fill();
+    }
+
+    function drawGrid() {
+      var g;
+      for (g = -1.8; g <= 1.81; g += 0.45) {
+        line(
+          project({ x: g, y: gridY, z: -1.5 }),
+          project({ x: g, y: gridY, z: 1.5 }),
+          colors.strong,
+          0.16,
+          1
+        );
+      }
+      for (g = -1.5; g <= 1.51; g += 0.375) {
+        line(
+          project({ x: -1.8, y: gridY, z: g }),
+          project({ x: 1.8, y: gridY, z: g }),
+          colors.strong,
+          0.16,
+          1
+        );
+      }
+
+      var frame = [
+        project({ x: -1.8, y: gridY, z: -1.5 }),
+        project({ x: 1.8, y: gridY, z: -1.5 }),
+        project({ x: 1.8, y: gridY, z: 1.5 }),
+        project({ x: -1.8, y: gridY, z: 1.5 })
+      ];
+      ctx.beginPath();
+      ctx.moveTo(frame[0].x, frame[0].y);
+      ctx.lineTo(frame[1].x, frame[1].y);
+      ctx.lineTo(frame[2].x, frame[2].y);
+      ctx.lineTo(frame[3].x, frame[3].y);
+      ctx.closePath();
+      ctx.strokeStyle = rgba(colors.strong, 0.34);
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+      ctx.stroke();
+    }
+
+    function drawSpine() {
+      line(
+        project({ x: 0, y: gridY, z: 0 }),
+        project({ x: 0, y: 0.94, z: 0 }),
+        colors.strong,
+        0.42,
+        1,
+        [2, 5]
+      );
+
+      var t;
+      for (t = -0.9; t <= 0.91; t += 0.3) {
+        line(
+          project({ x: -0.045, y: t, z: 0 }),
+          project({ x: 0.045, y: t, z: 0 }),
+          colors.strong,
+          0.4,
+          1
+        );
+      }
+
+      var top = project({ x: 0, y: 0.94, z: 0 });
+      ctx.save();
+      ctx.translate(top.x, top.y);
+      ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = rgba(colors.accent, 0.7);
+      ctx.fillRect(-2.2, -2.2, 4.4, 4.4);
+      ctx.restore();
+    }
+
+    function routePoints(id) {
+      var a = anchors[id];
+      return [
+        { x: 0, y: 0.88, z: 0 },
+        { x: 0, y: a.y, z: 0 },
+        { x: a.x, y: a.y, z: 0 },
+        { x: a.x, y: a.y, z: a.z }
+      ];
+    }
+
+    function pointAlong(points, t) {
+      var total = 0;
+      var lengths = [];
+      var i;
+      for (i = 1; i < points.length; i++) {
+        var dx = points[i].x - points[i - 1].x;
+        var dy = points[i].y - points[i - 1].y;
+        var dz = points[i].z - points[i - 1].z;
+        var len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        lengths.push(len);
+        total += len;
+      }
+
+      var distance = t * total;
+      for (i = 0; i < lengths.length; i++) {
+        if (distance <= lengths[i]) {
+          var k = lengths[i] ? distance / lengths[i] : 0;
+          var a = points[i];
+          var b = points[i + 1];
+          return {
+            x: a.x + (b.x - a.x) * k,
+            y: a.y + (b.y - a.y) * k,
+            z: a.z + (b.z - a.z) * k
+          };
+        }
+        distance -= lengths[i];
+      }
+      return points[points.length - 1];
+    }
+
+    function drawRoute(id, now, selected) {
+      var points = routePoints(id);
+      var projected = points.map(project);
+      var i;
+
+      ctx.beginPath();
+      ctx.moveTo(projected[0].x, projected[0].y);
+      for (i = 1; i < projected.length; i++) {
+        ctx.lineTo(projected[i].x, projected[i].y);
+      }
+      ctx.strokeStyle = rgba(colors.accent, selected ? 0.9 : 0.38);
+      ctx.lineWidth = selected ? 1.8 : 1.1;
+      ctx.setLineDash(selected ? [] : [3, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      for (i = 1; i < projected.length - 1; i++) {
+        dot(projected[i], 2, colors.accent, selected ? 0.8 : 0.4);
+      }
+
+      var t = reduceMotionOn()
+        ? 0.62
+        : ((now / 3400) + order.indexOf(id) * 0.235) % 1;
+      var pulse = project(pointAlong(points, t));
+      dot(pulse, 6.5, colors.accent, 0.12);
+      dot(pulse, 2.1, colors.accent, selected ? 1 : 0.6);
+    }
+
+    function drawDrop(id) {
+      var a = anchors[id];
+      var top = project(a);
+      var floor = project({ x: a.x, y: gridY, z: a.z });
+      line(top, floor, colors.strong, 0.4, 1, [2, 4]);
+      ctx.save();
+      ctx.translate(floor.x, floor.y);
+      ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = rgba(colors.accent, 0.55);
+      ctx.fillRect(-2.2, -2.2, 4.4, 4.4);
+      ctx.restore();
+    }
+
+    function drawCardBase(id) {
+      var p = project(anchors[id]);
+      var s = sizes[id];
+      if (!s) return;
+
+      var left = p.x - s.w / 2;
+      var top = p.y - s.h / 2;
+      var right = p.x + s.w / 2;
+      var bottom = p.y + s.h / 2;
+      var dx = 5;
+      var dy = 7;
+
+      ctx.beginPath();
+      ctx.moveTo(left, bottom);
+      ctx.lineTo(right, bottom);
+      ctx.lineTo(right + dx, bottom + dy);
+      ctx.lineTo(left + dx, bottom + dy);
+      ctx.closePath();
+      ctx.fillStyle = colors.dark ? 'rgba(0,0,0,0.55)' : 'rgba(20,19,15,0.13)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(right, top);
+      ctx.lineTo(right, bottom);
+      ctx.lineTo(right + dx, bottom + dy);
+      ctx.lineTo(right + dx, top + dy);
+      ctx.closePath();
+      ctx.fillStyle = colors.dark ? 'rgba(0,0,0,0.38)' : 'rgba(20,19,15,0.07)';
+      ctx.fill();
+    }
+
+    function drawCorners() {
+      var margin = 9;
+      var length = 11;
+      ctx.strokeStyle = rgba(colors.strong, 0.34);
+      ctx.lineWidth = 1;
+      [
+        [margin, margin, 1, 1],
+        [width - margin, margin, -1, 1],
+        [margin, height - margin, 1, -1],
+        [width - margin, height - margin, -1, -1]
+      ].forEach(function (corner) {
+        ctx.beginPath();
+        ctx.moveTo(corner[0], corner[1] + corner[3] * length);
+        ctx.lineTo(corner[0], corner[1]);
+        ctx.lineTo(corner[0] + corner[2] * length, corner[1]);
+        ctx.stroke();
+      });
+    }
+
+    function placeSlots() {
+      order.forEach(function (id) {
+        if (!slots[id]) return;
+        var p = project(anchors[id]);
+        slots[id].style.transform =
+          'translate3d(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px,0)';
+        slots[id].style.zIndex = String(2000 - Math.round(p.z * 100));
+      });
+    }
+
+    function draw(now) {
+      if (!width || !height) return;
+
+      var maxCardWidth = 0;
+      order.forEach(function (id) {
+        if (sizes[id]) maxCardWidth = Math.max(maxCardWidth, sizes[id].w);
+      });
+      if (!maxCardWidth) maxCardWidth = 184;
+
+      var focalLimit = ((width / 2 - 8 - maxCardWidth / 2) * cam.dist) / 0.95;
+      cam.focal = Math.max(220, Math.min(height * 1.52, focalLimit));
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      drawGrid();
+      drawSpine();
+      drawCorners();
+
+      var selected = $('.plate-node.is-selected', plateCanvas);
+      var selectedId = selected ? selected.getAttribute('data-plate-project') : null;
+
+      order.forEach(function (id) {
+        if (id !== selectedId) drawRoute(id, now, false);
+      });
+      if (selectedId) drawRoute(selectedId, now, true);
+
+      order.forEach(drawDrop);
+      order.forEach(drawCardBase);
+      placeSlots();
+    }
+
+    function frame(now) {
+      raf = null;
+      if (!visible || document.hidden) return;
+
+      var idle = Math.sin(now * 0.00025) * 0.05;
+      var targetYaw = baseYaw + cam.px * 0.10 + idle;
+      var targetPitch = clamp(basePitch + cam.py * 0.055, -0.02, 0.5);
+
+      if (!cam.drag) {
+        cam.yaw += (targetYaw - cam.yaw) * 0.06;
+        cam.pitch += (targetPitch - cam.pitch) * 0.06;
+      }
+
+      draw(now);
+      raf = window.requestAnimationFrame(frame);
+    }
+
+    function start() {
+      if (raf || reduceMotionOn()) return;
+      raf = window.requestAnimationFrame(frame);
+    }
+
+    function stop() {
+      if (raf) {
+        window.cancelAnimationFrame(raf);
+        raf = null;
+      }
+    }
+
+    function resize() {
+      var rect = viewport.getBoundingClientRect();
+      var w = Math.round(rect.width);
+      var h = Math.round(rect.height);
+      if (!w || !h) {
+        stop();
+        return;
+      }
+
+      width = w;
+      height = h;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      var bufferWidth = Math.round(w * dpr);
+      var bufferHeight = Math.round(h * dpr);
+      if (canvas3d.width !== bufferWidth || canvas3d.height !== bufferHeight) {
+        canvas3d.width = bufferWidth;
+        canvas3d.height = bufferHeight;
+      }
+
+      var cardWidth = Math.round(clamp(w * 0.42, 142, 184));
+      order.forEach(function (id) {
+        if (cards[id]) cards[id].style.width = cardWidth + 'px';
+      });
+
+      measure();
+      draw(performance.now());
+      if (visible) start();
+    }
+
+    viewport.addEventListener('pointermove', function (event) {
+      if (event.pointerType === 'touch' || cam.drag || reduceMotionOn()) return;
+      var rect = viewport.getBoundingClientRect();
+      cam.px = clamp(((event.clientX - rect.left) / rect.width - 0.5) * 2, -1, 1);
+      cam.py = clamp(((event.clientY - rect.top) / rect.height - 0.5) * 2, -1, 1);
+    });
+
+    viewport.addEventListener('pointerleave', function () {
+      cam.px = 0;
+      cam.py = 0;
+    });
+
+    canvas3d.addEventListener('pointerdown', function (event) {
+      if (event.pointerType === 'touch' || reduceMotionOn()) return;
+      cam.drag = {
+        x: event.clientX,
+        y: event.clientY,
+        yaw: cam.yaw,
+        pitch: cam.pitch
+      };
+      canvas3d.classList.add('is-dragging');
+      try {
+        canvas3d.setPointerCapture(event.pointerId);
+      } catch (err) {}
+    });
+
+    canvas3d.addEventListener('pointermove', function (event) {
+      if (!cam.drag) return;
+      cam.yaw = clamp(cam.drag.yaw + (event.clientX - cam.drag.x) * 0.004, baseYaw - 0.42, baseYaw + 0.42);
+      cam.pitch = clamp(cam.drag.pitch + (event.clientY - cam.drag.y) * 0.004, -0.02, 0.5);
+      draw(performance.now());
+    });
+
+    function endDrag() {
+      if (!cam.drag) return;
+      cam.drag = null;
+      canvas3d.classList.remove('is-dragging');
+      baseYaw = cam.yaw;
+      basePitch = cam.pitch;
+    }
+
+    canvas3d.addEventListener('pointerup', endDrag);
+    canvas3d.addEventListener('pointercancel', endDrag);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        function (entries) {
+          visible = entries[0].isIntersecting;
+          if (visible) start();
+          else stop();
+        },
+        { threshold: 0.02 }
+      ).observe(viewport);
+    } else {
+      start();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop();
+      else if (visible) start();
+    });
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(resize).observe(viewport);
+    } else {
+      window.addEventListener('resize', resize);
+    }
+
+    if ('MutationObserver' in window) {
+      new MutationObserver(function () {
+        readColors();
+        draw(performance.now());
+      }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+      });
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () {
+        measure();
+        draw(performance.now());
+      });
+    }
+
+    if (reduceMotion && reduceMotion.addEventListener) {
+      reduceMotion.addEventListener('change', function () {
+        if (reduceMotionOn()) {
+          stop();
+          cam.yaw = baseYaw;
+          cam.pitch = basePitch;
+          draw(performance.now());
+        } else {
+          start();
+        }
+      });
+    }
+
+    readColors();
+    resize();
+    start();
+  }
+
+  /* ------------------------------------------------------------------------
      Interactive Hero Architecture Map
      ------------------------------------------------------------------------ */
   function initHeroPlate() {
@@ -304,7 +850,7 @@
       nodes.forEach(function (n) {
         var isSelected = n.getAttribute('data-plate-project') === projectId;
         n.classList.toggle('is-selected', isSelected);
-        if (n.matches('.plate-mobile-node')) n.setAttribute('aria-pressed', String(isSelected));
+        n.setAttribute('aria-pressed', String(isSelected));
       });
 
       aimHeatAtNode(getActivePlateTarget(projectId));
@@ -316,6 +862,7 @@
 
     nodes.forEach(function (node) {
       var id = node.getAttribute('data-plate-project');
+      node.setAttribute('aria-pressed', 'false');
       node.addEventListener('click', function () {
         if (selectedPlateProject === id) {
           openProjectModal(id);
@@ -347,6 +894,8 @@
         openProjectModal(selectedPlateProject);
       }
     });
+
+    initPlateScene(canvas);
   }
 
   /* ------------------------------------------------------------------------

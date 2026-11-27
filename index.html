@@ -162,45 +162,47 @@
           <aside class="hero-plate" aria-label="Interactive system map connecting machine learning, product workflows, and native systems to four projects" data-reveal>
             <div class="plate-head">
               <span class="plate-title"><span class="plate-mark" aria-hidden="true"></span>Architecture map</span>
-              <span class="plate-hint">Select any build</span>
+              <span class="plate-hint"><span class="hint-wide">Drag or select</span><span class="hint-narrow">Select a build</span></span>
             </div>
 
             <div class="plate-canvas">
-              <svg viewBox="0 0 420 282" role="img" aria-label="System diagram linking FundusNet, JobMatch AI, FinAI, and LedgePill">
-                <path class="trace trace-first" pathLength="1" d="M192 56 H298 V100" />
-                <path class="trace trace-second" pathLength="1" d="M298 184 V228 H192" />
-                <path class="trace trace-faint" d="M112 88 V196" />
-
-                <circle class="joint" cx="298" cy="56" r="3.5" />
-                <circle class="joint" cx="298" cy="228" r="3.5" />
-
-                <g class="plate-node" data-plate-project="fundusnet" tabindex="0" role="button" aria-label="Applied ML, FundusNet, Five-model ensemble">
-                  <rect x="24" y="24" width="168" height="64" rx="1" />
-                  <text class="node-kicker" x="38" y="43">Applied ML</text>
-                  <text class="node-label" x="38" y="61">FundusNet</text>
-                  <text class="node-sub" x="38" y="76">Five-model ensemble</text>
-                </g>
-
-                <g class="plate-node" data-plate-project="jobmatch" tabindex="0" role="button" aria-label="Student tool, JobMatch AI, Rules and fit evidence">
-                  <rect x="218" y="94" width="178" height="58" rx="1" />
-                  <text class="node-kicker" x="232" y="112">Student tool</text>
-                  <text class="node-label" x="232" y="130">JobMatch AI</text>
-                  <text class="node-sub" x="232" y="143">Rules and fit evidence</text>
-                </g>
-
-                <g class="plate-node" data-plate-project="finai" tabindex="0" role="button" aria-label="FinAI, Budgets and edge proxy">
-                  <rect x="218" y="160" width="178" height="54" rx="1" />
-                  <text class="node-label" x="232" y="183">FinAI</text>
-                  <text class="node-sub" x="232" y="199">Budgets and edge proxy</text>
-                </g>
-
-                <g class="plate-node" data-plate-project="ledgepill" tabindex="0" role="button" aria-label="Native systems, LedgePill, GTK4, WPF, and Kotlin">
-                  <rect x="24" y="196" width="168" height="64" rx="1" />
-                  <text class="node-kicker" x="38" y="215">Native systems</text>
-                  <text class="node-label" x="38" y="233">LedgePill</text>
-                  <text class="node-sub" x="38" y="248">GTK4, WPF, and Kotlin</text>
-                </g>
-              </svg>
+              <div class="plate-viewport" id="plate-viewport">
+                <canvas class="plate-3d" id="plate-canvas-3d" aria-hidden="true"></canvas>
+                <div class="plate-node-layer">
+                  <div class="plate-node-slot">
+                    <button type="button" class="plate-node" data-plate-project="fundusnet" aria-label="Applied ML, FundusNet, five-model ensemble">
+                      <span class="node-index" aria-hidden="true">01</span>
+                      <span class="node-kicker">Applied ML</span>
+                      <span class="node-label">FundusNet</span>
+                      <span class="node-sub">Five-model ensemble</span>
+                    </button>
+                  </div>
+                  <div class="plate-node-slot">
+                    <button type="button" class="plate-node" data-plate-project="jobmatch" aria-label="Student tool, JobMatch AI, rules and fit evidence">
+                      <span class="node-index" aria-hidden="true">02</span>
+                      <span class="node-kicker">Student tool</span>
+                      <span class="node-label">JobMatch AI</span>
+                      <span class="node-sub">Rules and fit evidence</span>
+                    </button>
+                  </div>
+                  <div class="plate-node-slot">
+                    <button type="button" class="plate-node" data-plate-project="finai" aria-label="Product, FinAI, budgets and edge proxy">
+                      <span class="node-index" aria-hidden="true">03</span>
+                      <span class="node-kicker">Product</span>
+                      <span class="node-label">FinAI</span>
+                      <span class="node-sub">Budgets and edge proxy</span>
+                    </button>
+                  </div>
+                  <div class="plate-node-slot">
+                    <button type="button" class="plate-node" data-plate-project="ledgepill" aria-label="Native systems, LedgePill, GTK4, WPF, and Kotlin">
+                      <span class="node-index" aria-hidden="true">04</span>
+                      <span class="node-kicker">Native systems</span>
+                      <span class="node-label">LedgePill</span>
+                      <span class="node-sub">GTK4, WPF, and Kotlin</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div class="plate-mobile-projects" aria-label="Choose a project to inspect">
                 <button type="button" class="plate-mobile-node" data-plate-project="fundusnet">
                   <span class="mobile-node-kind">Applied ML</span>

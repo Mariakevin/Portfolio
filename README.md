@@ -36,9 +36,13 @@ All portfolio content and structured relationships live in **`js/data.js`** (`wi
 
 ## Design system notes
 
-- **Palette:** Film Paper (`#F4F5FA`) and Indigo Ink (`#14172E`) with Cobalt (`#2F43D8`) in light mode, switching to Night Film (`#0E1024`) and Periwinkle (`#9AA8FF`) in dark mode. A Grad-CAM-style heat ramp (red, amber, green) appears only in the hero map, where it follows the pointer or the selected project.
-- **Typography:** `Bricolage Grotesque` (display headings and brand) paired with `IBM Plex Sans` (body, controls, tables), plus `IBM Plex Mono` strictly inside the interactive command-line dialog.
-- **Interactive capabilities:** Hero Architecture Map with a readable tap-card layout on phones, project workbench, `<dialog>` case studies with Previous/Next navigation, tool-to-project evidence matrix, expandable research notes, `Ctrl/Cmd+K` command line, and a downloadable public résumé plus printable CV dossier.
+**Index / Dossier** — a technical portfolio presented like a printed engineering report crossed with a studio lookbook. Sharp Swiss grid, hairline rules, numbered sections, oversized editorial type, and mono metadata.
+
+- **Palette:** Warm bone paper (`#F2EFE9`), off-white surface (`#FAF8F2`), ink (`#14130F`), and a vermilion signal accent (`#B52F0B`, bright `#E8461C`) in light mode. Dark mode is near-black ink (`#0C0C0B`) with bone text and a warmer signal orange (`#FF6A3D`). Status hues stay semantic: cobalt for research, jade for active prototypes, forest green for completed builds, amber for beta. The research spread inverts to an ink-black panel for rhythm and focus.
+- **Typography:** `Instrument Serif` for display headlines and section titles, `Inter Tight` for body and interface copy, and `JetBrains Mono` for numbered labels, metadata, buttons, and the command line.
+- **Layout language:** 1px rules and 2px radii, numbered section headers (`01`–`05`), an indexed project list with a sticky dossier inspector, a live evidence matrix, and an inverted research spread.
+- **Motion:** Scroll-progress indicator, one-shot reveal transitions for major blocks (skipped under `prefers-reduced-motion`), pointer-following Grad-CAM-style heat on the hero map, and `@starting-style` dialog transitions with Previous/Next `ViewTransition` stepping.
+- **Interactive capabilities:** Hero Architecture Map with a readable tap-card layout on phones, project workbench, `<dialog>` case studies, container-query capability evidence matrix, expandable research notes, `Ctrl/Cmd+K` command line (`cv`, `evidence` autocomplete), and a downloadable public résumé plus printable CV dossier.
 - **Public résumé:** `assets/maria-kevin-resume.pdf` removes the private phone number, residential locality, and grade metrics while keeping a general Chennai location and public profile links.
 
 ---
@@ -47,7 +51,7 @@ All portfolio content and structured relationships live in **`js/data.js`** (`wi
 
 ```text
 index.html            Semantic markup, theme bootstrap, canonical/social metadata, JSON-LD
-css/styles.css        Film Paper/Night Film themes, responsive layouts, print CV rules
+css/styles.css        Index/Dossier themes, responsive layouts, motion, print CV rules
 js/data.js            Profile, capability mappings, projects, and research notes
 js/main.js            Hydration, interactive heat map, Evidence Matrix, Case Studies, CLI, Contact
 assets/               Public résumé PDF

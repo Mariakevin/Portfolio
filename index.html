@@ -14,11 +14,11 @@
   <meta property="og:image:alt" content="Maria Kevin's GitHub profile portrait">
   <meta name="twitter:card" content="summary">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f4f5fa" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0e1024" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0c0b" media="(prefers-color-scheme: dark)">
   <meta name="twitter:title" content="Maria Kevin, Software developer">
   <title>Maria Kevin, Software developer</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232f43d8'/%3E%3Cpath d='M9 22V10l7 7 7-7v12' fill='none' stroke='%23f4f5fa' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b52f0b'/%3E%3Cpath d='M8 23V9l8 8 8-8v14' fill='none' stroke='%23f2efe9' stroke-width='2.6' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E">
   <script>
     (function () {
       try {
@@ -32,7 +32,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500..700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <script defer src="js/data.js"></script>
   <script defer src="js/main.js"></script>
@@ -60,18 +60,21 @@
 
   <header class="site-header" id="site-header">
     <div class="container header-inner">
-      <a href="#top" class="brand" aria-label="Back to top">
-        <span class="brand-name" id="nav-brand">Maria Kevin</span>
-        <span class="brand-role" id="nav-role">Software developer</span>
+      <a href="#top" class="brand" aria-label="Maria Kevin, Software developer, back to top">
+        <span class="brand-mark" aria-hidden="true">MK</span>
+        <span class="brand-text">
+          <span class="brand-name" id="nav-brand">Maria Kevin</span>
+          <span class="brand-role" id="nav-role">Software developer</span>
+        </span>
       </a>
 
       <nav class="primary-nav" aria-label="Primary navigation">
         <ul class="nav-list">
-          <li><a href="#projects" class="nav-link">Work</a></li>
-          <li><a href="#about" class="nav-link">Capabilities</a></li>
-          <li><a href="#research" class="nav-link">Research</a></li>
-          <li><a href="#experience" class="nav-link">Background</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li><a href="#projects" class="nav-link"><span class="nav-num" aria-hidden="true">01</span>Work</a></li>
+          <li><a href="#about" class="nav-link"><span class="nav-num" aria-hidden="true">02</span>Capabilities</a></li>
+          <li><a href="#research" class="nav-link"><span class="nav-num" aria-hidden="true">03</span>Research</a></li>
+          <li><a href="#experience" class="nav-link"><span class="nav-num" aria-hidden="true">04</span>Background</a></li>
+          <li><a href="#contact" class="nav-link"><span class="nav-num" aria-hidden="true">05</span>Contact</a></li>
         </ul>
       </nav>
 
@@ -80,27 +83,28 @@
           Print CV
         </button>
 
-        <button type="button" class="btn-utility" id="terminal-toggle" aria-label="Open interactive command line" title="Command line (Ctrl+K)">
-          <span>Command line</span>
+        <button type="button" class="btn-utility cmd-trigger" id="terminal-toggle" aria-label="Open interactive command line" title="Command line (Ctrl+K)">
+          <span class="cmd-key" aria-hidden="true">CLI</span>
+          <span class="cmd-label">Command line</span>
         </button>
 
         <button type="button" class="btn-icon" id="theme-toggle" aria-label="Switch color theme" title="Switch color theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4"></circle>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
           </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
 
         <button type="button" class="btn-icon mobile-only" id="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
-          <svg class="icon-menu" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <svg class="icon-menu" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
             <line x1="3" y1="7" x2="21" y2="7"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="17" x2="21" y2="17"></line>
           </svg>
-          <svg class="icon-close" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <svg class="icon-close" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -108,14 +112,16 @@
       </div>
     </div>
 
+    <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+
     <div class="mobile-nav" id="mobile-nav" hidden>
       <nav aria-label="Mobile navigation">
         <ul class="mobile-nav-list">
-          <li><a href="#projects" class="mobile-nav-link">Work</a></li>
-          <li><a href="#about" class="mobile-nav-link">Capabilities</a></li>
-          <li><a href="#research" class="mobile-nav-link">Research</a></li>
-          <li><a href="#experience" class="mobile-nav-link">Background</a></li>
-          <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+          <li><a href="#projects" class="mobile-nav-link"><span aria-hidden="true">01</span>Work</a></li>
+          <li><a href="#about" class="mobile-nav-link"><span aria-hidden="true">02</span>Capabilities</a></li>
+          <li><a href="#research" class="mobile-nav-link"><span aria-hidden="true">03</span>Research</a></li>
+          <li><a href="#experience" class="mobile-nav-link"><span aria-hidden="true">04</span>Background</a></li>
+          <li><a href="#contact" class="mobile-nav-link"><span aria-hidden="true">05</span>Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -126,7 +132,7 @@
     <section class="hero" aria-labelledby="hero-headline">
       <div class="container">
         <div class="hero-grid">
-          <div class="hero-main">
+          <div class="hero-main" data-reveal>
             <p class="hero-kicker" id="hero-status">
               <span class="status-dot" aria-hidden="true"></span>
               <span id="hero-status-text">MCA student in Chennai building applied AI and native systems</span>
@@ -141,16 +147,21 @@
             </p>
 
             <div class="hero-actions">
-              <a href="#projects" class="btn btn-primary">Read case studies</a>
+              <a href="#projects" class="btn btn-primary">
+                Read case studies
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
+              </a>
               <a href="#about" class="btn btn-secondary">Explore capabilities</a>
               <a class="btn btn-ghost" id="resume-download-link" href="#" hidden>Download résumé PDF</a>
             </div>
           </div>
 
           <!-- Primary Visual Centerpiece: Interactive Architecture Map -->
-          <aside class="hero-plate" aria-label="Interactive system map connecting machine learning, product workflows, and native systems to four projects">
+          <aside class="hero-plate" aria-label="Interactive system map connecting machine learning, product workflows, and native systems to four projects" data-reveal>
             <div class="plate-head">
-              <span class="plate-title">Architecture map</span>
+              <span class="plate-title"><span class="plate-mark" aria-hidden="true"></span>Architecture map</span>
               <span class="plate-hint">Select any build</span>
             </div>
 
@@ -163,28 +174,28 @@
                 <circle class="joint" cx="298" cy="56" r="3.5" />
                 <circle class="joint" cx="298" cy="228" r="3.5" />
 
-                <g class="plate-node" data-plate-project="fundusnet" tabindex="0" role="button" aria-label="Select FundusNet">
-                  <rect x="24" y="24" width="168" height="64" rx="6" />
+                <g class="plate-node" data-plate-project="fundusnet" tabindex="0" role="button" aria-label="Applied ML, FundusNet, Five-model ensemble">
+                  <rect x="24" y="24" width="168" height="64" rx="1" />
                   <text class="node-kicker" x="38" y="43">Applied ML</text>
                   <text class="node-label" x="38" y="61">FundusNet</text>
                   <text class="node-sub" x="38" y="76">Five-model ensemble</text>
                 </g>
 
-                <g class="plate-node" data-plate-project="jobmatch" tabindex="0" role="button" aria-label="Select JobMatch AI">
-                  <rect x="218" y="94" width="178" height="58" rx="6" />
+                <g class="plate-node" data-plate-project="jobmatch" tabindex="0" role="button" aria-label="Student tool, JobMatch AI, Rules and fit evidence">
+                  <rect x="218" y="94" width="178" height="58" rx="1" />
                   <text class="node-kicker" x="232" y="112">Student tool</text>
                   <text class="node-label" x="232" y="130">JobMatch AI</text>
                   <text class="node-sub" x="232" y="143">Rules and fit evidence</text>
                 </g>
 
-                <g class="plate-node" data-plate-project="finai" tabindex="0" role="button" aria-label="Select FinAI">
-                  <rect x="218" y="160" width="178" height="54" rx="6" />
+                <g class="plate-node" data-plate-project="finai" tabindex="0" role="button" aria-label="FinAI, Budgets and edge proxy">
+                  <rect x="218" y="160" width="178" height="54" rx="1" />
                   <text class="node-label" x="232" y="183">FinAI</text>
                   <text class="node-sub" x="232" y="199">Budgets and edge proxy</text>
                 </g>
 
-                <g class="plate-node" data-plate-project="ledgepill" tabindex="0" role="button" aria-label="Select LedgePill">
-                  <rect x="24" y="196" width="168" height="64" rx="6" />
+                <g class="plate-node" data-plate-project="ledgepill" tabindex="0" role="button" aria-label="Native systems, LedgePill, GTK4, WPF, and Kotlin">
+                  <rect x="24" y="196" width="168" height="64" rx="1" />
                   <text class="node-kicker" x="38" y="215">Native systems</text>
                   <text class="node-label" x="38" y="233">LedgePill</text>
                   <text class="node-sub" x="38" y="248">GTK4, WPF, and Kotlin</text>
@@ -227,7 +238,7 @@
         </div>
 
         <!-- Quick 30-second orientation strip -->
-        <div class="hero-summary-row" aria-label="Summary details">
+        <div class="hero-summary-row" aria-label="Summary details" data-reveal>
           <div class="summary-item">
             <span class="summary-label">Education</span>
             <p class="summary-value" id="meta-focus">MCA student at SRM Valliammai Engineering College</p>
@@ -237,7 +248,7 @@
             <p class="summary-value" id="meta-location">Chennai, India</p>
           </div>
           <div class="summary-item">
-            <span class="summary-label">Links</span>
+            <span class="summary-label">Elsewhere</span>
             <div class="summary-links" id="hero-social-links">
               <a href="https://github.com/Mariakevin" target="_blank" rel="noopener noreferrer">GitHub</a>
               <a href="https://www.linkedin.com/in/mariakevin/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -246,19 +257,37 @@
           </div>
         </div>
       </div>
+
+      <div class="signal-strip" aria-hidden="true">
+        <div class="container signal-strip-inner">
+          <span>Applied ML</span>
+          <span class="signal-dot"></span>
+          <span>Explainable products</span>
+          <span class="signal-dot"></span>
+          <span>Native systems</span>
+          <span class="signal-dot"></span>
+          <span>Open research</span>
+          <span class="signal-dot"></span>
+          <span>Chennai, IN</span>
+        </div>
+      </div>
     </section>
 
     <!-- Selected Work -->
     <section id="projects" class="section" aria-labelledby="projects-heading">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title" id="projects-heading">Selected work</h2>
+        <div class="section-header" data-reveal>
+          <span class="section-index" aria-hidden="true">01</span>
+          <div class="section-heading">
+            <p class="section-eyebrow">Selected work</p>
+            <h2 class="section-title" id="projects-heading">Four builds, documented end to end.</h2>
+          </div>
           <p class="section-lead">
-            Four software and machine learning builds across medical screening, student tooling, personal finance, and native desktop interfaces. Select an entry to inspect its architecture or open the full case study.
+            Software and machine learning across medical screening, student tooling, personal finance, and native desktop interfaces. Select an entry to inspect its architecture or open the full case study.
           </p>
         </div>
 
-        <div class="work-toolbar">
+        <div class="work-toolbar" data-reveal>
           <div class="filter-group" id="project-filters" role="group" aria-label="Filter projects by discipline">
             <!-- Populated from js/data.js -->
           </div>
@@ -266,11 +295,11 @@
             <div class="status-legend" id="project-status-legend" aria-label="Project status legend">
               <!-- Populated from js/data.js -->
             </div>
-            <span class="work-count" id="work-count">4 projects</span>
+            <span class="work-count mono" id="work-count">4 projects</span>
           </div>
         </div>
 
-        <div class="work-layout">
+        <div class="work-layout" data-reveal>
           <div class="work-index" id="projects-grid" aria-live="polite">
             <noscript>
               <ul class="noscript-projects">
@@ -283,9 +312,10 @@
           </div>
 
           <aside class="work-preview" id="work-preview" aria-label="Selected project details">
+            <div class="preview-rule" aria-hidden="true"></div>
             <div class="preview-inner" id="preview-inner">
               <div class="preview-head">
-                <span class="preview-category" id="preview-meta">Applied ML</span>
+                <span class="preview-category mono" id="preview-meta">Applied ML</span>
                 <span class="status-badge" id="preview-status" data-status="research">Research prototype</span>
               </div>
               <h3 class="preview-title" id="preview-title">FundusNet</h3>
@@ -293,10 +323,10 @@
                 A retinal-image screening prototype combining a five-model ensemble with uncertainty-aware inference and Grad-CAM visual explanations.
               </p>
 
-              <div class="preview-section-label">System flow</div>
+              <div class="preview-section-label mono">System flow</div>
               <ol class="preview-flow" id="preview-flow"></ol>
 
-              <div class="preview-section-label">Documented behavior</div>
+              <div class="preview-section-label mono">Documented behavior</div>
               <p class="preview-impact" id="preview-impact"></p>
 
               <div class="preview-stack" id="preview-stack"></div>
@@ -304,6 +334,7 @@
               <div class="preview-actions">
                 <button class="btn btn-primary btn-sm" id="preview-open" type="button">Read case study</button>
                 <a class="btn btn-secondary btn-sm" id="preview-repo" href="https://github.com/Mariakevin/FundusNet" target="_blank" rel="noopener noreferrer">View source</a>
+                <a class="btn btn-secondary btn-sm" id="preview-demo" href="#" target="_blank" rel="noopener noreferrer" hidden>Live demo ↗</a>
               </div>
             </div>
           </aside>
@@ -314,14 +345,18 @@
     <!-- Capabilities & Evidence Matrix -->
     <section id="about" class="section" aria-labelledby="about-heading">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title" id="about-heading">Capabilities and where they appear</h2>
+        <div class="section-header" data-reveal>
+          <span class="section-index" aria-hidden="true">02</span>
+          <div class="section-heading">
+            <p class="section-eyebrow">Capabilities</p>
+            <h2 class="section-title" id="about-heading">Every tool traces back to a build.</h2>
+          </div>
           <p class="section-lead">
-            Instead of self-assessed skill ratings, every technology below connects directly to the repositories and open questions where it was applied.
+            Instead of self-assessed skill ratings, each technology below connects directly to the repositories and open questions where it was applied.
           </p>
         </div>
 
-        <div class="observatory-grid">
+        <div class="observatory-grid" data-reveal>
           <article class="obs-bio">
             <h3 class="obs-title" id="bio-title">Software that shows its work</h3>
             <div class="obs-body" id="bio-paragraphs">
@@ -330,7 +365,7 @@
             </div>
 
             <div class="obs-cli-inline">
-              <p class="obs-cli-label">Prefer typing commands?</p>
+              <p class="obs-cli-label mono">Prefer typing commands?</p>
               <div class="cli-shortcuts" id="cli-shortcuts">
                 <button type="button" class="cli-chip" data-cmd="help">help</button>
                 <button type="button" class="cli-chip" data-cmd="projects">projects</button>
@@ -349,7 +384,7 @@
                   Showing all capability groups across four repositories and three research inquiries.
                 </p>
               </div>
-              <button type="button" class="graph-reset" id="graph-reset" hidden>Show all</button>
+              <button type="button" class="graph-reset mono" id="graph-reset" hidden>Reset</button>
             </div>
 
             <div class="evidence-matrix" id="evidence-matrix">
@@ -359,14 +394,14 @@
 
               <div class="evidence-targets">
                 <div class="evidence-column">
-                  <h4 class="evidence-col-label">Projects</h4>
+                  <h4 class="evidence-col-label mono">Projects</h4>
                   <div class="evidence-links-list" id="evidence-projects">
                     <!-- Populated from js/data.js -->
                   </div>
                 </div>
 
                 <div class="evidence-column">
-                  <h4 class="evidence-col-label">Open inquiries</h4>
+                  <h4 class="evidence-col-label mono">Open inquiries</h4>
                   <div class="evidence-links-list" id="evidence-research">
                     <!-- Populated from js/data.js -->
                   </div>
@@ -379,16 +414,20 @@
     </section>
 
     <!-- Open Research Questions -->
-    <section id="research" class="section section-alt" aria-labelledby="research-heading">
+    <section id="research" class="section section-inverse" aria-labelledby="research-heading">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title" id="research-heading">Open research questions</h2>
+        <div class="section-header" data-reveal>
+          <span class="section-index" aria-hidden="true">03</span>
+          <div class="section-heading">
+            <p class="section-eyebrow">Open research</p>
+            <h2 class="section-title" id="research-heading">What the builds leave unanswered.</h2>
+          </div>
           <p class="section-lead">
             Questions drawn from the documented limitations of these projects, describing what remains unverified and how to evaluate it.
           </p>
         </div>
 
-        <div class="research-grid" id="research-grid">
+        <div class="research-grid" id="research-grid" data-reveal>
           <!-- Populated from js/data.js -->
         </div>
       </div>
@@ -397,21 +436,25 @@
     <!-- Education & Engineering Principles -->
     <section id="experience" class="section" aria-labelledby="experience-heading">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title" id="experience-heading">Education and engineering principles</h2>
+        <div class="section-header" data-reveal>
+          <span class="section-index" aria-hidden="true">04</span>
+          <div class="section-heading">
+            <p class="section-eyebrow">Background</p>
+            <h2 class="section-title" id="experience-heading">Study in Chennai, practice across every layer.</h2>
+          </div>
           <p class="section-lead">
-            Academic study in Chennai paired with recurring engineering practices across the four builds.
+            Academic study paired with recurring engineering practices applied across the four builds.
           </p>
         </div>
 
-        <div class="practice-layout">
+        <div class="practice-layout" data-reveal>
           <div class="education-panel" id="education-panel">
             <!-- Populated from js/data.js -->
           </div>
 
-          <ul class="principles-list" id="experience-list">
+          <div class="practice-details" id="experience-list">
             <!-- Populated from js/data.js -->
-          </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -419,16 +462,20 @@
     <!-- Contact -->
     <section id="contact" class="section" aria-labelledby="contact-heading">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title" id="contact-heading">Contact</h2>
+        <div class="section-header" data-reveal>
+          <span class="section-index" aria-hidden="true">05</span>
+          <div class="section-heading">
+            <p class="section-eyebrow">Contact</p>
+            <h2 class="section-title" id="contact-heading">Start a conversation.</h2>
+          </div>
           <p class="section-lead">
             Reach out about applied AI, systems engineering, internships, or open-source collaboration. Email is the fastest route.
           </p>
         </div>
 
-        <div class="contact-grid">
+        <div class="contact-grid" data-reveal>
           <div class="contact-info">
-            <span class="contact-kicker">Email address</span>
+            <span class="contact-kicker mono">Email address</span>
             <a class="contact-email" id="contact-email-link" href="mailto:mariakevin0504@gmail.com">
               <span id="contact-email-text">mariakevin0504@gmail.com</span>
             </a>
@@ -488,6 +535,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-about">
+        <p class="footer-wordmark" aria-hidden="true">Maria Kevin</p>
         <p class="footer-copy">&copy; <span id="footer-year">2026</span> <span id="footer-name">Maria Kevin</span></p>
         <p class="footer-note">Built directly with HTML, CSS, and vanilla JavaScript.</p>
       </div>
@@ -497,7 +545,7 @@
         <a href="#research">Research</a>
         <a href="#experience">Background</a>
         <a href="#contact">Contact</a>
-        <a href="#top" class="footer-top">Back to top</a>
+        <a href="#top" class="footer-top">Back to top ↑</a>
       </div>
     </div>
   </footer>
@@ -507,16 +555,16 @@
     <div class="modal-surface">
       <div class="modal-header">
         <div>
-          <span class="modal-category" id="modal-category">Category</span>
+          <span class="modal-category mono" id="modal-category">Category</span>
           <h2 class="modal-title" id="modal-title">Project title</h2>
         </div>
         <div class="modal-header-actions">
           <div class="modal-stepper" role="group" aria-label="Browse projects">
-            <button type="button" class="btn-utility btn-sm" id="modal-prev" aria-label="Previous project">Previous</button>
+            <button type="button" class="btn-utility btn-sm" id="modal-prev" aria-label="Previous project">Prev</button>
             <button type="button" class="btn-utility btn-sm" id="modal-next" aria-label="Next project">Next</button>
           </div>
           <button type="button" class="btn-icon" id="modal-close" aria-label="Close case study">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
@@ -534,7 +582,7 @@
   <dialog id="terminal-modal" class="terminal-dialog" aria-labelledby="terminal-heading">
     <div class="terminal-window">
       <div class="terminal-titlebar">
-        <span class="terminal-title mono" id="terminal-heading">Interactive command line</span>
+        <span class="terminal-title mono" id="terminal-heading"><span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>Interactive command line</span>
         <button type="button" class="terminal-close mono" id="terminal-close" aria-label="Close command line">Close (Esc)</button>
       </div>
 

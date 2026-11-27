@@ -505,10 +505,13 @@
             </div>
           </div>
 
-          <form class="contact-form" id="contact-form" action="mailto:mariakevin0504@gmail.com" method="post" enctype="text/plain" novalidate>
-            <noscript>
-              <p class="form-note">JavaScript is off, so the form will open a mail draft instead of validating inline. You can also email <a href="mailto:mariakevin0504@gmail.com">mariakevin0504@gmail.com</a> directly.</p>
-            </noscript>
+          <noscript>
+            <div class="contact-fallback">
+              <p class="form-note">The interactive message form needs JavaScript. Email <a href="mailto:mariakevin0504@gmail.com">mariakevin0504@gmail.com</a> and you will get a reply.</p>
+            </div>
+          </noscript>
+
+          <form class="contact-form" id="contact-form" novalidate>
             <div class="form-row">
               <div class="form-field">
                 <label for="contact-name">Your name</label>

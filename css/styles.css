@@ -16,8 +16,6 @@
   --container-max: 1280px;
   --header-height: 66px;
   --radius-sm: 2px;
-  --radius-md: 3px;
-  --radius-pill: 999px;
 
   --ease: cubic-bezier(0.22, 0.75, 0.24, 1);
   --fast: 150ms var(--ease);
@@ -46,8 +44,7 @@
   --border-control: rgba(20, 19, 15, 0.48);
   --accent: #b52f0b;
   --accent-hover: #8f2506;
-  --accent-bright: #e8461c;
-  --accent-soft: rgba(192, 52, 13, 0.09);
+  --accent-soft: rgba(181, 47, 11, 0.10);
   --on-accent: #faf8f2;
   --status-research: #1f4fa3;
   --status-research-bg: rgba(31, 79, 163, 0.09);
@@ -80,7 +77,6 @@
   --border-control: rgba(242, 239, 233, 0.44);
   --accent: #ff6a3d;
   --accent-hover: #ff8a63;
-  --accent-bright: #ff6a3d;
   --accent-soft: rgba(255, 106, 61, 0.13);
   --on-accent: #1a0d07;
   --status-research: #8fb6ff;
@@ -116,6 +112,24 @@ html {
   -webkit-text-size-adjust: 100%;
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid var(--bg);
+  background: var(--border-strong);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-3);
 }
 
 body {
@@ -213,7 +227,8 @@ img, svg {
 }
 
 .section {
-  padding-block: clamp(72px, 8vw, 118px);
+  padding-top: clamp(72px, 8vw, 118px);
+  padding-bottom: clamp(72px, 8vw, 118px);
   border-top: 1px solid var(--border);
 }
 
@@ -268,7 +283,7 @@ img, svg {
   background: var(--accent);
   color: var(--on-accent);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
@@ -291,7 +306,7 @@ img, svg {
 .brand-role {
   margin-top: 4px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -314,7 +329,7 @@ img, svg {
   padding: 8px 0;
   border-bottom: 1px solid transparent;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -324,7 +339,7 @@ img, svg {
 }
 
 .nav-num {
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--text-3);
   transition: color var(--fast);
 }
@@ -365,7 +380,7 @@ img, svg {
   gap: 8px;
   padding: 0 12px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -374,7 +389,7 @@ img, svg {
 .btn-utility.btn-sm {
   height: 30px;
   padding: 0 9px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
 }
 
 .btn-icon {
@@ -393,7 +408,7 @@ img, svg {
   padding: 1px 4px;
   border: 1px solid var(--border-strong);
   color: var(--accent);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
 }
 
@@ -452,7 +467,7 @@ img, svg {
 
 .mobile-nav-link span {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--accent);
 }
 
@@ -474,7 +489,7 @@ img, svg {
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -491,10 +506,19 @@ img, svg {
   transform: translateX(3px);
 }
 
+.btn:active,
+.filter-btn:active,
+.cli-chip:active,
+.evidence-chip:active,
+.social-pill:active,
+.graph-reset:active {
+  transform: translateY(1px);
+}
+
 .btn-sm {
   min-height: 36px;
   padding: 8px 13px;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   gap: 7px;
 }
 
@@ -549,7 +573,7 @@ img, svg {
   border-radius: 1px;
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.61rem;
+  font-size: 0.7rem;
   letter-spacing: 0.02em;
   color: var(--text-2);
 }
@@ -563,7 +587,7 @@ img, svg {
   border: 1px solid var(--border);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -618,19 +642,21 @@ img, svg {
   gap: clamp(32px, 5vw, 72px);
 }
 
-.hero-kicker {
-  display: inline-flex;
-  align-items: center;
+.hero-status {
+  display: flex;
+  align-items: baseline;
   gap: 9px;
-  margin-bottom: 24px;
-  padding: 7px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
+  margin: 0 0 30px;
   font-family: var(--font-mono);
-  font-size: 0.61rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
   color: var(--text-2);
+}
+
+.hero-status .status-dot {
+  position: relative;
+  top: -1px;
 }
 
 .status-dot {
@@ -639,7 +665,6 @@ img, svg {
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .hero-title {
@@ -654,11 +679,12 @@ img, svg {
 }
 
 .hero-subtitle {
-  max-width: 52ch;
-  margin-bottom: 32px;
+  max-width: 58ch;
+  margin-bottom: 28px;
   font-size: clamp(1rem, 1.2vw, 1.1rem);
   line-height: 1.6;
   color: var(--text-2);
+  text-wrap: pretty;
 }
 
 .hero-actions {
@@ -685,7 +711,7 @@ img, svg {
   padding: 11px 14px;
   border-bottom: 1px solid var(--border);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -840,7 +866,7 @@ img, svg {
 
 .plate-readout-tag {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -853,7 +879,7 @@ img, svg {
   border-radius: 1px;
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text);
@@ -879,12 +905,13 @@ img, svg {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   margin-top: clamp(42px, 5vw, 64px);
-  padding-top: 22px;
   border-top: 1px solid var(--border-strong);
 }
 
 .summary-item {
-  padding-inline: clamp(14px, 2.4vw, 28px);
+  padding-top: 22px;
+  padding-left: clamp(14px, 2.4vw, 28px);
+  padding-right: clamp(14px, 2.4vw, 28px);
   border-left: 1px solid var(--border);
 }
 
@@ -897,7 +924,7 @@ img, svg {
   display: block;
   margin-bottom: 6px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -944,9 +971,10 @@ img, svg {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding-block: 11px;
+  padding-top: 11px;
+  padding-bottom: 11px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -976,18 +1004,9 @@ img, svg {
 .section-index {
   padding-top: 7px;
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.7rem;
   letter-spacing: 0.1em;
   color: var(--accent);
-}
-
-.section-eyebrow {
-  margin: 0 0 14px;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-3);
 }
 
 .section-title {
@@ -1001,12 +1020,13 @@ img, svg {
 }
 
 .section-lead {
-  max-width: 46ch;
+  max-width: 54ch;
   margin: 0;
   padding-top: 6px;
   font-size: 0.96rem;
   line-height: 1.6;
   color: var(--text-2);
+  text-wrap: pretty;
 }
 
 /* --------------------------------------------------------------------------
@@ -1034,7 +1054,7 @@ img, svg {
   border: 1px solid var(--border);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-2);
@@ -1054,7 +1074,7 @@ img, svg {
 }
 
 .work-count {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1080,7 +1100,7 @@ img, svg {
   border: 0;
   border-radius: 0;
   background: transparent;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--text-3);
 }
 
@@ -1120,7 +1140,7 @@ img, svg {
   top: 24px;
   right: 14px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   color: var(--text-3);
   transition: color var(--fast);
@@ -1130,10 +1150,17 @@ img, svg {
   background: var(--surface);
 }
 
+.project-row:focus-visible {
+  outline-offset: -2px;
+}
+
 .project-row.is-active {
-  background: var(--surface);
-  box-shadow: inset 2px 0 0 var(--accent);
-  padding-left: 22px;
+  background: var(--accent-soft);
+  border-bottom-color: var(--accent);
+}
+
+.project-row.is-active .row-title {
+  color: var(--accent);
 }
 
 .project-row.is-active::after {
@@ -1165,18 +1192,19 @@ img, svg {
 
 .row-tagline {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 
 .row-summary {
-  max-width: 62ch;
+  max-width: 66ch;
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.55;
   color: var(--text-2);
+  text-wrap: pretty;
 }
 
 .row-tags {
@@ -1189,7 +1217,7 @@ img, svg {
 
 .row-category {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1197,14 +1225,14 @@ img, svg {
 
 .row-year {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--text-3);
 }
 
 .row-action-hint {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
@@ -1252,7 +1280,7 @@ img, svg {
 }
 
 .preview-category {
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1276,7 +1304,7 @@ img, svg {
 
 .preview-section-label {
   margin-bottom: 8px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -1305,14 +1333,14 @@ img, svg {
 
 .preview-flow .flow-step-num {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--accent);
 }
 
 .preview-impact {
   margin: 0 0 20px;
-  padding-left: 12px;
-  border-left: 2px solid var(--accent);
+  padding: 10px 12px;
+  background: var(--accent-soft);
   font-size: 0.85rem;
   line-height: 1.55;
   color: var(--text-2);
@@ -1351,11 +1379,12 @@ img, svg {
 }
 
 .obs-body p {
-  max-width: 52ch;
+  max-width: 66ch;
   margin-bottom: 14px;
   font-size: 1rem;
   line-height: 1.65;
   color: var(--text-2);
+  text-wrap: pretty;
 }
 
 .obs-cli-inline {
@@ -1366,7 +1395,7 @@ img, svg {
 
 .obs-cli-label {
   margin-bottom: 10px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1385,7 +1414,7 @@ img, svg {
   background: transparent;
   color: var(--text-2);
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.7rem;
   cursor: pointer;
   transition: border-color var(--fast), color var(--fast), background-color var(--fast);
 }
@@ -1432,7 +1461,7 @@ img, svg {
   border-radius: 1px;
   border: 1px solid var(--border-strong);
   background: transparent;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
@@ -1460,14 +1489,15 @@ img, svg {
   grid-template-columns: 118px minmax(0, 1fr);
   align-items: start;
   gap: 14px;
-  padding-block: 12px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border);
 }
 
 .stack-group-name {
   padding-top: 5px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1482,7 +1512,7 @@ img, svg {
   border: 1px solid var(--border);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.7rem;
   color: var(--text-2);
   cursor: pointer;
   transition: border-color var(--fast), color var(--fast), background-color var(--fast), opacity var(--fast);
@@ -1510,7 +1540,7 @@ img, svg {
 }
 
 .evidence-chip-count {
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   opacity: 0.72;
 }
 
@@ -1528,7 +1558,7 @@ img, svg {
 
 .evidence-col-label {
   margin: 0 0 10px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -1552,13 +1582,11 @@ img, svg {
 
 .evidence-target-row.is-highlighted {
   border-color: var(--accent);
-  box-shadow: inset 2px 0 0 var(--accent);
 }
 
 .evidence-target-row.is-selected {
-  background: var(--surface-well);
+  background: var(--accent-soft);
   border-color: var(--accent);
-  box-shadow: inset 2px 0 0 var(--accent);
 }
 
 .evidence-target-row.is-dimmed {
@@ -1580,12 +1608,13 @@ img, svg {
 .evidence-target-side {
   display: flex;
   align-items: center;
-  padding-inline: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   border: 0;
   border-left: 1px solid var(--border);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--accent);
@@ -1617,7 +1646,6 @@ img, svg {
 
 .evidence-target-card.is-highlighted {
   border-color: var(--accent);
-  box-shadow: inset 2px 0 0 var(--accent);
 }
 
 .evidence-target-card.is-dimmed {
@@ -1636,7 +1664,7 @@ img, svg {
   justify-content: space-between;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1709,7 +1737,7 @@ img, svg {
   gap: 10px;
   margin-bottom: 18px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
@@ -1739,7 +1767,7 @@ img, svg {
   display: block;
   margin-bottom: 4px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1762,7 +1790,7 @@ img, svg {
   border: 1px solid var(--border-strong);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text);
@@ -1778,8 +1806,7 @@ img, svg {
 .research-note-panel {
   margin-top: 10px;
   padding: 12px 13px;
-  border-left: 2px solid var(--accent);
-  background: var(--surface);
+  background: var(--accent-soft);
   font-size: 0.83rem;
   line-height: 1.55;
   color: var(--text-2);
@@ -1802,7 +1829,7 @@ img, svg {
   border: 0;
   background: none;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
@@ -1853,7 +1880,7 @@ img, svg {
 
 .edu-kicker {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
@@ -1861,7 +1888,7 @@ img, svg {
 
 .edu-period {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--text-3);
 }
 
@@ -1918,7 +1945,7 @@ img, svg {
 .practice-group-label {
   margin: 0 0 4px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1966,7 +1993,7 @@ img, svg {
 .experience-period,
 .principle-context {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
@@ -2011,7 +2038,7 @@ img, svg {
 .contact-kicker {
   display: block;
   margin-bottom: 12px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -2060,7 +2087,7 @@ img, svg {
   border: 1px solid var(--border);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-2);
@@ -2094,7 +2121,7 @@ img, svg {
 
 .form-field label {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--text-2);
@@ -2161,7 +2188,7 @@ img, svg {
 .form-status {
   margin-top: 18px;
   padding: 12px 14px;
-  border-left: 2px solid var(--success);
+  border: 1px solid var(--success);
   background: var(--success-soft);
   font-size: 0.88rem;
   line-height: 1.5;
@@ -2176,7 +2203,8 @@ img, svg {
    12. Footer
    -------------------------------------------------------------------------- */
 .site-footer {
-  padding-block: clamp(36px, 5vw, 56px);
+  padding-top: clamp(36px, 5vw, 56px);
+  padding-bottom: clamp(36px, 5vw, 56px);
   border-top: 1px solid var(--border);
   background: var(--surface-well);
 }
@@ -2197,7 +2225,7 @@ img, svg {
   line-height: 0.86;
   letter-spacing: -0.03em;
   color: var(--text-3);
-  opacity: 0.42;
+  opacity: 0.85;
 }
 
 .footer-copy {
@@ -2218,7 +2246,7 @@ img, svg {
   align-items: center;
   gap: 16px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-2);
@@ -2235,7 +2263,14 @@ img, svg {
 }
 
 .footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   color: var(--accent);
+}
+
+.footer-top svg {
+  flex: 0 0 auto;
 }
 
 /* --------------------------------------------------------------------------
@@ -2331,7 +2366,7 @@ img, svg {
 .modal-category {
   display: block;
   margin-bottom: 6px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -2361,7 +2396,7 @@ img, svg {
 .case-block h3 {
   margin: 0 0 10px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2369,11 +2404,12 @@ img, svg {
 }
 
 .case-block p {
-  max-width: 66ch;
+  max-width: 68ch;
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.62;
   color: var(--text-2);
+  text-wrap: pretty;
 }
 
 /* Interactive sequence pipeline */
@@ -2421,21 +2457,21 @@ img, svg {
 
 .arch-step-index {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
 }
 
 .arch-stage-btn.is-active .arch-step-index {
-  color: var(--accent);
+  color: var(--bg);
+  opacity: 0.72;
 }
 
 .arch-inspector {
   margin-top: 10px;
   padding: 12px 14px;
-  border-left: 2px solid var(--accent);
-  background: var(--surface-well);
+  background: var(--accent-soft);
   font-size: 0.86rem;
   line-height: 1.56;
   color: var(--text-2);
@@ -2467,8 +2503,7 @@ img, svg {
 
 .case-limits {
   padding: 16px;
-  border-left: 2px solid var(--status-beta);
-  background: var(--surface-well);
+  background: var(--status-beta-bg);
 }
 
 .case-research-link {
@@ -2537,7 +2572,7 @@ img, svg {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--terminal-muted);
@@ -2566,7 +2601,7 @@ img, svg {
   border-radius: 1px;
   background: transparent;
   color: var(--terminal-text);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
@@ -2652,7 +2687,7 @@ img, svg {
   border-color: rgba(242, 239, 233, 0.22);
   background: transparent;
   color: var(--terminal-muted);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
 }
 
 .terminal-quickbar .cli-chip:hover {
@@ -2671,7 +2706,7 @@ img, svg {
   max-width: min(360px, calc(100vw - 40px));
   padding: 11px 15px;
   border-radius: 1px;
-  border-left: 2px solid var(--accent);
+  border: 1px solid var(--accent);
   background: var(--text);
   color: var(--bg);
   font-family: var(--font-mono);
@@ -2785,7 +2820,7 @@ img, svg {
 
   .summary-item:first-child {
     border-top: 0;
-    padding-top: 0;
+    padding-top: 14px;
   }
 
   .summary-item:last-child {
@@ -2797,7 +2832,7 @@ img, svg {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 940px) {
   .primary-nav {
     display: none;
   }
@@ -2819,7 +2854,7 @@ img, svg {
   .brand-mark {
     width: 30px;
     height: 30px;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .brand-name {
@@ -2851,7 +2886,7 @@ img, svg {
 
   .cmd-key {
     border: 0;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .section-header {
@@ -2879,11 +2914,11 @@ img, svg {
 
   .work-toolbar-meta {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   .status-legend {
-    max-width: calc(100% - 86px);
+    display: none;
   }
 
   .evidence-targets,
@@ -2902,11 +2937,13 @@ img, svg {
 
   .modal-header,
   .modal-body {
-    padding-inline: 18px;
+    padding-left: 18px;
+    padding-right: 18px;
   }
 
   .modal-header {
-    padding-block: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 
   .modal-stepper {
@@ -2933,9 +2970,13 @@ img, svg {
     width: 100%;
   }
 
-  .hero-kicker {
-    font-size: 0.62rem;
-    line-height: 1.4;
+  .hero-status {
+    align-items: flex-start;
+    font-size: 0.75rem;
+  }
+
+  .hero-status .status-dot {
+    margin-top: 0.42em;
   }
 
   .hero-title {
@@ -2983,7 +3024,7 @@ img, svg {
   .mobile-node-kind {
     margin-bottom: 5px;
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--accent);
@@ -2998,7 +3039,7 @@ img, svg {
 
   .mobile-node-detail {
     margin-top: 5px;
-    font-size: 0.66rem;
+    font-size: 0.7rem;
     line-height: 1.3;
     color: var(--text-3);
   }
@@ -3012,7 +3053,7 @@ img, svg {
   }
 
   .row-action-hint {
-    margin-left: 0;
+    margin-left: auto;
   }
 
   .toast {
@@ -3073,7 +3114,8 @@ img, svg {
   }
 
   .section {
-    padding-block: 16pt;
+    padding-top: 16pt;
+    padding-bottom: 16pt;
     border-color: #ccc;
     break-inside: avoid;
   }

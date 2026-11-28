@@ -89,7 +89,7 @@ Light theme tokens (all pairs verified):
 | `--surface-well` | `#E8ECF2` | sunken wells, inputs |
 | `--text` | `#0C1220` | 17.1:1 on bg, 18.7:1 on white |
 | `--text-2` | `#3D4A60` | 8.2:1 on bg, 9.0:1 on white |
-| `--text-3` | `#5B6980` | 5.1:1 on bg, 5.6:1 on white, 4.7:1 on well |
+| `--text-3` | `#58657C` | 5.4:1 on bg, 5.9:1 on white, 5.0:1 on well, 4.6:1 on the tinted selected row |
 | `--border` | `rgba(12, 18, 32, 0.12)` | |
 | `--border-strong` | `rgba(12, 18, 32, 0.24)` | |
 | `--border-control` | `rgba(12, 18, 32, 0.42)` | |
@@ -178,9 +178,12 @@ inline the latin subsets, and remove Instrument Serif and JetBrains Mono.
 - `--font-display` and `--font-sans`: Geist.
 - `--font-mono`: Geist Mono, used **only** for section indices, node numbers,
   numeric metadata, code, and the command line. All other micro-labels go sans.
-- Metric-matched local fallbacks: "Geist Fallback" (Arial/Helvetica,
-  size-adjust tuned) and "Geist Mono Fallback" (local monospace). Tune once,
-  then verify CLS 0.
+- Metric-matched local fallbacks: "Geist Fallback" (Arial/Helvetica at
+  `size-adjust: 105.6%`, matching Geist's measured width) and "Geist Mono
+  Fallback" (local monospace). Use `font-display: optional` on the embedded
+  faces: the inline font is ready before first paint in practice, and if it is
+  not, the fallback stays for that load instead of swapping later. This is what
+  keeps CLS at 0 while the hero wraps differently between faces.
 - Mono subset may be trimmed to digits, punctuation, and CLI glyphs to keep the
   CSS payload in check.
 
@@ -188,7 +191,7 @@ Scale and treatment:
 
 | Role | Current | New |
 |---|---|---|
-| Hero title | Instrument Serif 400, `clamp(3rem, 6.6vw, 5.9rem)`, -0.025em | Geist 500, `clamp(2.5rem, 5.4vw, 4.6rem)`, -0.035em, line-height 1.04 |
+| Hero title | Instrument Serif 400, `clamp(3rem, 6.6vw, 5.9rem)`, -0.025em | Geist 500, `clamp(2.5rem, 4.95vw, 4rem)`, -0.035em, line-height 1.04 |
 | Section title | Serif 400, `clamp(2.2rem, 4.4vw, 3.8rem)`, -0.02em | Geist 500, `clamp(1.9rem, 3.6vw, 3rem)`, -0.03em, line-height 1.08 |
 | Panel/row title | Serif 400, ~1.6rem | Geist 500, 1.15–1.35rem, -0.015em |
 | Body | Inter Tight 16px / 1.55 | Geist 16px / 1.6 |
@@ -201,8 +204,9 @@ Because labels are authored in sentence case in the HTML and uppercased by CSS,
 removing `text-transform` restores sentence case without copy edits. Keep
 uppercase only on the small status/filter chips, at tighter tracking.
 
-The hero measure (currently `6.9em`, tuned for the serif) is retuned for Geist
-(roughly `8.6em`, and a wider value under 1080px), then verified across widths.
+The hero measure (currently `6.9em`, tuned for the serif) is retuned to `10em`
+for Geist, with a mobile size clamp of `2.3rem–3.2rem`, then verified across
+widths for balanced wrapping.
 
 ### 3. Component language
 
